@@ -30,7 +30,6 @@ Built with Angular and Spring Boot, Hotelia delivers a seamless experience for c
 1. Clone the repo  
    ```bash
    git clone https://github.com/your-username/hotelia.git
-   Start the backend
 
 2. Start the backend
     cd backend
