@@ -1,7 +1,10 @@
 package tn.esprit.chambrems;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
+
+import java.util.List;
 
 @Entity
 @Table(name = "chambres")
@@ -27,4 +30,9 @@ public class Chambre {
 
     @Column(nullable = false)
     private boolean disponibilite = true;
+
+    // Relation OneToMany avec HistoriqueOccupation
+    @OneToMany(mappedBy = "chambre", cascade = CascadeType.ALL)
+    @JsonIgnore
+    private List<HistoriqueOccupation> historiques;
 }
