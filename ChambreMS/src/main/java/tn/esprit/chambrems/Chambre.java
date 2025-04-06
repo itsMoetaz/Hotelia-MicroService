@@ -10,6 +10,7 @@ import java.util.List;
 @Table(name = "chambres")
 @Getter
 @Setter
+@ToString
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
@@ -30,6 +31,10 @@ public class Chambre {
 
     @Column(nullable = false)
     private boolean disponibilite = true;
+
+    // Nouveau champ pour l'image (URL ou chemin)
+    @Column(name = "image_url")
+    private String imageUrl; // Vous pouvez aussi utiliser byte[] si vous stockez l'image directement
 
     // Relation OneToMany avec HistoriqueOccupation
     @OneToMany(mappedBy = "chambre", cascade = CascadeType.ALL)

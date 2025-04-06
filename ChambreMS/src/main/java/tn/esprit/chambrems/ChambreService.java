@@ -15,6 +15,9 @@ public class ChambreService {
 
     // 1. Ajouter une chambre
     public Chambre ajouterChambre(Chambre chambre) {
+        if (chambre.getImageUrl() == null || chambre.getImageUrl().trim().isEmpty()) {
+            throw new IllegalArgumentException("L'URL de l'image est obligatoire.");
+        }
         return chambreRepository.save(chambre);
     }
 
@@ -29,7 +32,7 @@ public class ChambreService {
     }
 
     // 4. Mettre à jour une chambre
-    public Chambre updateChambre(Long id, Chambre chambreDetails) {
+    /*public Chambre updateChambre(Long id, Chambre chambreDetails) {
         return chambreRepository.findById(id).map(chambre -> {
             chambre.setNumero(chambreDetails.getNumero());
             chambre.setType(chambreDetails.getType());
@@ -37,6 +40,21 @@ public class ChambreService {
             chambre.setDisponibilite(chambreDetails.isDisponibilite());
             return chambreRepository.save(chambre);
         }).orElseThrow(() -> new RuntimeException("Chambre non trouvée avec ID : " + id));
+    }*/
+    public Chambre updateChambre(Long id, Chambre chambreDetails) {
+        Optional<Chambre> chambreOpt = chambreRepository.findById(id);
+        if (!chambreOpt.isPresent()) {
+            throw new RuntimeException("Chambre non trouvée avec l'ID : " + id);
+        }
+
+        Chambre chambre = chambreOpt.get();
+        chambre.setNumero(chambreDetails.getNumero());
+        chambre.setType(chambreDetails.getType());
+        chambre.setPrixParNuit(chambreDetails.getPrixParNuit());
+        chambre.setDisponibilite(chambreDetails.isDisponibilite());
+        chambre.setImageUrl(chambreDetails.getImageUrl()); // Assurez-vous que l'URL de l'image est mise à jour
+
+        return chambreRepository.save(chambre);
     }
 
     // 5. Supprimer une chambre
