@@ -14,7 +14,7 @@ public class EvenementService {
     private TwilioSmsSender service ;
 
 
-    //en va prend a la suite user connecte 
+    //en va prend a la suite user connecte
     private final String userPhoneNumber = "+21623369399";
 
     //récuperer tous evenements
