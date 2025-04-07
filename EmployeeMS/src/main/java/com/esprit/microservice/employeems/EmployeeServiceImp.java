@@ -33,18 +33,10 @@ public class EmployeeServiceImp implements IEmployeeService{
 
     @Override
     public Employee updateEmployee(Employee e) {
-        Employee existingEmployee = employeeRepository.findById(e.getId()).orElse(null);
-        Position oldPosition = (existingEmployee != null) ? existingEmployee.getPosition() : null;
-
-        Employee updatedEmployee = employeeRepository.save(e);
-
-        // If position changed, send email
-        if (oldPosition != null && e.getPosition() != null && !oldPosition.equals(e.getPosition())) {
-            emailService.sendPositionUpdateEmail(updatedEmployee, oldPosition);
-        }
-
-        return updatedEmployee;
+        return employeeRepository.save(e);
     }
+
+
 
     @Override
     public void deleteEmployee(Long id) {
