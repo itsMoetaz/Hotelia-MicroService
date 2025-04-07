@@ -11,6 +11,7 @@ import { HeaderComponent } from './components/header/header.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { HomeComponent } from './components/home/home.component';
 import { DetailReservationsComponent } from './reservation/detail-reservations/detail-reservations.component';
+import { PaymentComponent } from './reservation/payment/payment.component';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,8 @@ import { DetailReservationsComponent } from './reservation/detail-reservations/d
     HeaderComponent,
     FooterComponent,
     HomeComponent,
-    DetailReservationsComponent
+    DetailReservationsComponent,
+    PaymentComponent
   ],
   imports: [
     BrowserModule,

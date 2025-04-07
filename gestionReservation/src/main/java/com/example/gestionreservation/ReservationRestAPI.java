@@ -60,11 +60,11 @@ public class ReservationRestAPI {
         return ResponseEntity.ok(reservationService.getAllReservations());
     }
 
- /*  @GetMapping("/{id}")
+   @GetMapping("/{id}")
     public ResponseEntity<Optional<Reservation>> getReservationById(@PathVariable int id) {
         return ResponseEntity.ok(reservationService.getReservationById(id));
-    }*/
- @GetMapping("/{id}")
+    }
+ /*@GetMapping("/{id}")
  public ResponseEntity<Optional<Reservation>> getReservationById(@PathVariable int id) {
      Optional<Reservation> reservation = reservationService.getReservationById(id);
 
@@ -80,7 +80,7 @@ public class ReservationRestAPI {
      });
 
      return ResponseEntity.ok(reservation);
- }
+ }*/
     @GetMapping("/stats")
     public ResponseEntity<Map<String, Integer>> getReservationStats() {
         Map<String, Integer> stats = new HashMap<>();

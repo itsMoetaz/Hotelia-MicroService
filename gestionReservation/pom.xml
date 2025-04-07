@@ -78,6 +78,13 @@
             <artifactId>junit-jupiter-engine</artifactId>
             <scope>test</scope>
         </dependency>
+
+        <dependency>
+            <groupId>com.github.runbuggyinc</groupId>
+            <artifactId>stripe-java7</artifactId>
+            <version>16.4.0</version>
+        </dependency>
+
     </dependencies>
     <dependencyManagement>
         <dependencies>
