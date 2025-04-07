@@ -1,18 +1,20 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { HotelService } from '../../models/hotel-service.model';
 import { HotelServiceService } from '../../services/hotel-service.service';
+import { HotelService } from '../../models/hotel-service.model';
 
 @Component({
-  selector: 'app-service-details',
-  templateUrl: './service-detail.component.html',
-  styleUrls: ['./service-detail.component.css']
+  selector: 'app-payment-success',
+  templateUrl: './payment-succes.component.html',
+  styleUrls: ['./payment-succes.component.css']
 })
-export class ServiceDetailsComponent implements OnInit {
+export class PaymentSuccessComponent implements OnInit {
   service: HotelService | null = null;
   loading = true;
   error = '';
-
+  transactionId: string = '';
+  date: Date = new Date(); // Added the missing date property
+  
   constructor(
     private route: ActivatedRoute,
     private router: Router,
@@ -21,6 +23,8 @@ export class ServiceDetailsComponent implements OnInit {
 
   ngOnInit(): void {
     const id = Number(this.route.snapshot.paramMap.get('id'));
+    this.transactionId = this.generateTransactionId();
+    
     if (id) {
       this.loadService(id);
     } else {
@@ -28,7 +32,7 @@ export class ServiceDetailsComponent implements OnInit {
       this.loading = false;
     }
   }
-
+  
   loadService(id: number): void {
     this.hotelServiceService.getServiceById(id)
       .subscribe({
@@ -43,35 +47,14 @@ export class ServiceDetailsComponent implements OnInit {
         }
       });
   }
-
-  navigateToEdit(): void {
-    if (this.service) {
-      this.router.navigate(['/services/edit', this.service.id]);
-    }
+  
+  // Generate a random transaction ID for demo purposes
+  // In a real app, this would come from your backend
+  generateTransactionId(): string {
+    return 'TXN' + Math.random().toString(36).substring(2, 12).toUpperCase();
   }
-
-  navigateToList(): void {
+  
+  navigateToServices(): void {
     this.router.navigate(['/services']);
-  }
-
-  navigateToPayment(): void {
-    if (this.service) {
-      this.router.navigate(['/services/payment', this.service.id]);
-    }
-  }
-
-  deleteService(): void {
-    if (this.service && confirm('Are you sure you want to delete this service?')) {
-      this.hotelServiceService.deleteService(this.service.id!)
-        .subscribe({
-          next: () => {
-            this.router.navigate(['/services']);
-          },
-          error: (err) => {
-            this.error = 'Failed to delete service';
-            console.error(err);
-          }
-        });
-    }
   }
 }
