@@ -15,7 +15,7 @@ public class EvenementService {
 
 
     //en va prend a la suite user connecte
-    private final String userPhoneNumber = "+21623369399";
+   private final String userPhoneNumber = "+21623369399";
 
     //récuperer tous evenements
     public List<Evenement> getAll()
@@ -43,7 +43,8 @@ public class EvenementService {
 
 
         if (e.getEtat() == EtatEvenement.GRATUIT) {
-            String message = "Profitez ! Un nouvel événement gratuit vient d'être ajouté.";
+            String message = String.format("🎉 Profitez ! L'événement '%s' est GRATUIT au %s, prévu pour le %s. Ne manquez pas cette opportunité ! 🎁",
+                    e.getNom(), e.getLieu(), e.getDateDebut().toString());
             service.sendSmsAdd(userPhoneNumber, message);
         }
             // Sauvegarde de l'événement

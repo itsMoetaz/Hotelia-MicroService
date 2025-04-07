@@ -8,9 +8,10 @@ import org.springframework.context.annotation.Configuration;
 // configuer de connecter avec twilio api
 @Configuration
 public class TwilioInitializer {
-    private final static Logger LOGGER = LoggerFactory.getLogger(TwilioInitializer.class);
-    private final TwilioConfiguration twilioConfiguration;
 
+    private final static Logger LOGGER = LoggerFactory.getLogger(TwilioInitializer.class);
+
+    private final TwilioConfiguration twilioConfiguration;
 
     @Autowired
     public TwilioInitializer(TwilioConfiguration twilioConfiguration) {

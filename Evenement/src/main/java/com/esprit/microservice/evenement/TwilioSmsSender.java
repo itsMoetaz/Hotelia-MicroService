@@ -9,14 +9,14 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-
-
 @Service("twilio")
 public class TwilioSmsSender implements SmsSender {
+
     private static final Logger LOGGER = LoggerFactory.getLogger(TwilioSmsSender.class);
+
     private final TwilioConfiguration twilioConfiguration;
 
-  @Autowired
+    @Autowired
     public TwilioSmsSender(TwilioConfiguration twilioConfiguration) {
         this.twilioConfiguration = twilioConfiguration;
     }
@@ -28,19 +28,21 @@ public class TwilioSmsSender implements SmsSender {
             PhoneNumber from = new PhoneNumber(twilioConfiguration.getTrialNumber());
             String message = smsRequest.getMessage();
             MessageCreator creator = Message.creator(to, from, message);
-            creator.create();
-            LOGGER.info("Send sms {}", smsRequest);
-        }else{
+            try {
+                creator.create();
+                LOGGER.info("SMS sent successfully to {}", smsRequest.getPhoneNumber());
+            } catch (com.twilio.exception.ApiException e) {
+                LOGGER.error("Twilio API Exception: {}", e.getMessage());
+                throw new RuntimeException("Failed to send SMS due to authentication or API error.", e);
+            }
+
+        } else {
             throw new IllegalArgumentException(
                     "Phone number [" + smsRequest.getPhoneNumber() + "] is not a valid number"
             );
         }
-
-
     }
 
-
-    //envoyer Sms d'un message par defaut et chaque user connecter
     public void sendSmsAdd(String to, String message) {
         Message.creator(
                 new PhoneNumber(to),
@@ -49,8 +51,7 @@ public class TwilioSmsSender implements SmsSender {
         ).create();
     }
 
-    @Override
-    public boolean isPhoneNumberValid(String phoneNumber) {
+    private boolean isPhoneNumberValid(String phoneNumber) {
+        // TODO: Implement phone number validator
         return true;
-    }
-}
+    }}
