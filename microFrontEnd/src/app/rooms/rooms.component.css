@@ -1,0 +1,82 @@
+.rooms-container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.room-card {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.room-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1) !important;
+}
+
+.room-image-wrapper {
+  background-color: #f8f9fa;
+}
+
+.room-image {
+  border-top-left-radius: 1rem;
+  border-top-right-radius: 1rem;
+}
+
+.room-image:hover {
+  transform: scale(1.05);
+}
+
+.image-fallback {
+  height: 150px;
+  color: #6c757d;
+}
+
+.room-title {
+  font-size: 1.25rem;
+}
+
+.status {
+  font-size: 1rem;
+}
+
+.price {
+  font-weight: 600;
+}
+
+.btn-outline-primary {
+  border-color: #007bff;
+  color: #007bff;
+  transition: all 0.3s ease;
+}
+
+.btn-outline-primary:hover {
+  background-color: #007bff;
+  color: white;
+}
+
+.btn-outline-danger {
+  border-color: #dc3545;
+  color: #dc3545;
+  transition: all 0.3s ease;
+}
+
+.btn-outline-danger:hover {
+  background-color: #dc3545;
+  color: white;
+}
+
+.btn-success {
+  background-color: #28a745;
+  border-color: #28a745;
+  transition: all 0.3s ease;
+}
+
+.btn-success:hover {
+  background-color: #218838;
+  border-color: #1e7e34;
+}
+
+.alert-danger {
+  background-color: #f8d7da;
+  border-color: #f5c6cb;
+  color: #721c24;
+}

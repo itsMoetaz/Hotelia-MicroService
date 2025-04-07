@@ -1,0 +1,129 @@
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+      <h2>Hotel Services</h2>
+      <button class="btn btn-primary" (click)="navigateToAdd()">Add New Service</button>
+    </div>
+    
+    <!-- Search and Filter Panel -->
+    <div class="card mb-4">
+      <div class="card-header">
+        <h5 class="mb-0">Search & Filter</h5>
+      </div>
+      <div class="card-body">
+        <form [formGroup]="searchForm">
+          <div class="row g-3">
+            <!-- Text search -->
+            <div class="col-md-6">
+              <label for="searchTerm" class="form-label">Search</label>
+              <input 
+                type="text" 
+                class="form-control" 
+                id="searchTerm" 
+                formControlName="searchTerm"
+                placeholder="Search by name or description"
+              >
+            </div>
+            
+            <!-- Availability filter -->
+            <div class="col-md-6">
+              <label for="availabilityFilter" class="form-label">Availability</label>
+              <select class="form-select" id="availabilityFilter" formControlName="availabilityFilter">
+                <option value="all">All Services</option>
+                <option value="available">Available Only</option>
+                <option value="unavailable">Unavailable Only</option>
+              </select>
+            </div>
+            
+            <!-- Price range filter -->
+            <div class="col-md-6">
+              <label for="priceMin" class="form-label">Min Price</label>
+              <div class="input-group">
+                <span class="input-group-text">$</span>
+                <input 
+                  type="number" 
+                  class="form-control" 
+                  id="priceMin" 
+                  formControlName="priceMin" 
+                  placeholder="Min"
+                  min="0"
+                >
+              </div>
+            </div>
+            
+            <div class="col-md-6">
+              <label for="priceMax" class="form-label">Max Price</label>
+              <div class="input-group">
+                <span class="input-group-text">$</span>
+                <input 
+                  type="number" 
+                  class="form-control" 
+                  id="priceMax" 
+                  formControlName="priceMax" 
+                  placeholder="Max"
+                  min="0"
+                >
+              </div>
+            </div>
+          </div>
+          
+          <div class="d-flex justify-content-end mt-3">
+            <button type="button" class="btn btn-outline-secondary" (click)="resetFilters()">Reset Filters</button>
+          </div>
+        </form>
+      </div>
+    </div>
+    
+    <!-- Results info -->
+    <div class="d-flex justify-content-between align-items-center mb-3">
+      <p class="mb-0" *ngIf="!loading && filteredServices.length > 0">
+        Showing {{ filteredServices.length }} of {{ services.length }} services
+      </p>
+      <div></div> <!-- Spacer for flex layout -->
+    </div>
+    
+    <!-- Loading and error states -->
+    <div *ngIf="loading" class="text-center">
+      <div class="spinner-border" role="status">
+        <span class="visually-hidden">Loading...</span>
+      </div>
+    </div>
+    
+    <div *ngIf="error" class="alert alert-danger">
+      {{ error }}
+    </div>
+    
+    <div *ngIf="!loading && !error && services.length === 0" class="alert alert-info">
+      No services found. Add a new service to get started.
+    </div>
+    
+    <div *ngIf="!loading && !error && services.length > 0 && filteredServices.length === 0" class="alert alert-warning">
+      No services match your filter criteria. Try adjusting your filters.
+    </div>
+    
+    <!-- Services grid (now showing filtered results) -->
+    <div class="row row-cols-1 row-cols-md-3 g-4" *ngIf="!loading && filteredServices.length > 0">
+      <div class="col" *ngFor="let service of filteredServices">
+        <div class="card h-100">
+          <div class="card-body">
+            <h5 class="card-title">{{ service.name }}</h5>
+            <p class="card-text">{{ service.description }}</p>
+            <div class="d-flex justify-content-between align-items-center">
+              <span class="badge" [ngClass]="service.available ? 'bg-success' : 'bg-danger'">
+                {{ service.available ? 'Available' : 'Unavailable' }}
+              </span>
+              <span class="text-primary fw-bold">{{ service.price | currency }}</span>
+            </div>
+            <p class="card-text mt-2">
+              <small class="text-muted">Hours: {{ service.openingTime }} - {{ service.closingTime }}</small>
+            </p>
+          </div>
+          <div class="card-footer d-flex justify-content-between">
+            <button class="btn btn-sm btn-outline-primary" (click)="navigateToDetails(service.id!)">Details</button>
+            <button class="btn btn-sm btn-outline-secondary" (click)="navigateToEdit(service.id!)">Edit</button>
+            <button class="btn btn-sm btn-outline-danger" (click)="deleteService(service.id!)">Delete</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  

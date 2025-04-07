@@ -1,0 +1,17 @@
+.card-header {
+    background-color: #f8f9fa;
+  }
+  
+  .filter-badge {
+    font-size: 0.8rem;
+    margin-right: 5px;
+  }
+  
+  /* Optional: Add some animation to the filter panel */
+  .card {
+    transition: all 0.3s ease;
+  }
+  
+  .card:hover {
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  }

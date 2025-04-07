@@ -1,0 +1,290 @@
+<div class="drawer lg:drawer-open bg-base-100">
+  <input id="chambre-drawer" type="checkbox" class="drawer-toggle" />
+
+  <!-- Drawer Content (Main Content) -->
+  <div class="drawer-content flex flex-col">
+    <!-- Navbar for Mobile -->
+    <div class="sticky top-0 z-30 bg-base-200 lg:hidden">
+      <div class="navbar">
+        <div class="navbar-start">
+          <label for="chambre-drawer" class="btn btn-square btn-ghost">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+            </svg>
+          </label>
+        </div>
+        <div class="navbar-center">
+          <span class="font-serif text-2xl font-bold">Hôtelia</span>
+        </div>
+        <div class="navbar-end">
+          <div class="dropdown dropdown-end">
+            <label tabindex="0" class="btn btn-ghost btn-circle avatar">
+              <div class="w-10 rounded-full">
+                <img src="https://i.pravatar.cc/150?img=40" alt="Admin" />
+              </div>
+            </label>
+            <ul tabindex="0" class="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52">
+              <li><a>Profile</a></li>
+              <li><a>Settings</a></li>
+              <li><a>Logout</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="min-h-screen pb-10">
+      <!-- Header -->
+      <div class="bg-base-200 p-6">
+        <div class="container mx-auto">
+          <h1 class="text-3xl font-serif font-bold">{{ isEditMode ? 'Edit Room' : 'Add Room' }}</h1>
+          <div class="text-sm breadcrumbs">
+            <ul>
+              <li><a routerLink="/dashboard">Home</a></li>
+              <li><a routerLink="/dashboard/rooms">Rooms & Suites</a></li>
+              <li>{{ isEditMode ? 'Edit Room' : 'Add Room' }}</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- Form Content -->
+      <div class="container mx-auto px-4 mt-6">
+        <div class="card border-0 shadow-lg rounded-4 overflow-hidden animate__animated animate__fadeIn">
+          <!-- Header with gradient and icon -->
+          <div class="card-header bg-gradient-primary text-white rounded-top-4 py-3 px-4 d-flex align-items-center">
+            <i class="bi bi-door-open-fill me-2 fs-4"></i>
+            <h4 class="mb-0 fw-bold">
+              {{ isEditMode ? 'Edit Room' : 'Add Room' }}
+            </h4>
+          </div>
+
+          <!-- Body with soft background and comfortable padding -->
+          <div class="card-body p-4 bg-light rounded-bottom-4">
+            <form [formGroup]="chambreForm" (ngSubmit)="onSubmit()" novalidate>
+              <div class="row g-4">
+                <!-- Room Number -->
+                <div class="col-md-6">
+                  <label class="form-label fw-semibold text-dark">Room Number</label>
+                  <div class="input-group animate__animated animate__fadeInUp" style="animation-delay: 0.1s;">
+                    <span class="input-group-text bg-white border-end-0"><i class="bi bi-hash text-primary"></i></span>
+                    <input
+                      type="text"
+                      class="form-control border-start-0 shadow-sm"
+                      formControlName="numero"
+                      placeholder="Ex: 101"
+                    >
+                  </div>
+                  <div *ngIf="submitted && chambreForm.get('numero')?.errors" class="text-danger small mt-1 animate__animated animate__shakeX">
+                    Room number is required
+                  </div>
+                </div>
+
+                <!-- Room Type -->
+                <div class="col-md-6">
+                  <label class="form-label fw-semibold text-dark">Room Type</label>
+                  <div class="input-group animate__animated animate__fadeInUp" style="animation-delay: 0.2s;">
+                    <span class="input-group-text bg-white border-end-0"><i class="bi bi-layout-text-sidebar-reverse text-primary"></i></span>
+                    <select class="form-select border-start-0 shadow-sm" formControlName="type">
+                      <option value="" disabled selected> Choose a type</option>
+                      <option value="SIMPLE">Simple</option>
+                      <option value="DOUBLE">Double</option>
+                      <option value="SUITE">Suite</option>
+                    </select>
+                  </div>
+                </div>
+
+                <!-- Price per Night -->
+                <div class="col-md-6">
+                  <label class="form-label fw-semibold text-dark">Price per Night (€)</label>
+                  <div class="input-group animate__animated animate__fadeInUp" style="animation-delay: 0.3s;">
+                    <span class="input-group-text bg-white border-end-0"><i class="bi bi-currency-euro text-primary"></i></span>
+                    <input
+                      type="number"
+                      class="form-control border-start-0 shadow-sm"
+                      formControlName="prixParNuit"
+                      placeholder="Ex: 120"
+                    >
+                  </div>
+                  <div *ngIf="submitted && chambreForm.get('prixParNuit')?.errors" class="text-danger small mt-1 animate__animated animate__shakeX">
+                    A valid price is required
+                  </div>
+                </div>
+
+                <!-- Availability -->
+                <div class="col-md-6 d-flex align-items-center">
+                  <div class="form-check form-switch animate__animated animate__fadeInUp" style="animation-delay: 0.4s;">
+                    <input
+                      class="form-check-input shadow-sm"
+                      type="checkbox"
+                      id="disponibilite"
+                      formControlName="disponibilite"
+                    >
+                    <label class="form-check-label ms-2 fw-semibold text-dark" for="disponibilite">
+                      Available
+                    </label>
+                  </div>
+                </div>
+
+                <!-- Image -->
+                <div class="col-12">
+                  <label class="form-label fw-semibold text-dark">Image</label>
+                  <input
+                    type="file"
+                    class="form-control shadow-sm animate__animated animate__fadeInUp"
+                    style="animation-delay: 0.5s;"
+                    (change)="onFileChange($event)"
+                  >
+                  <div *ngIf="isEditMode" class="form-text text-muted mt-1">
+                    Leave blank to keep the current image
+                    </div>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="col-12 text-end mt-4">
+                  <button
+                    type="submit"
+                    class="btn btn-success me-2 px-4 shadow-sm animate__animated animate__pulse"
+                    [disabled]="loading"
+                  >
+                    <span *ngIf="loading" class="spinner-border spinner-border-sm me-2"></span>
+                    {{ isEditMode ? 'Update' : 'Add' }}
+                  </button>
+                  <button
+                    type="button"
+                    class="btn btn-outline-secondary px-4 shadow-sm animate__animated animate__pulse"
+                    (click)="onCancel()"
+                  >
+                    Cancel
+                  </button>
+                </div>
+
+                <!-- Error Message -->
+                <div *ngIf="error" class="alert alert-danger mt-3 rounded-3 animate__animated animate__shakeX">
+                  {{ error }}
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Drawer Side (Sidebar) -->
+  <div class="drawer-side z-30">
+    <label for="rooms-drawer" aria-label="close sidebar" class="drawer-overlay"></label>
+    <div class="bg-base-200 w-80 min-h-screen text-base-content">
+      <!-- Sidebar Header with Logo -->
+      <div class="p-4 bg-base-300 flex items-center justify-center">
+        <span class="font-serif text-3xl font-bold">Hôtelia</span>
+      </div>
+      
+      <!-- Admin Profile Summary -->
+      <div class="p-4 flex items-center space-x-4 border-b border-base-300">
+        <div class="avatar">
+          <div class="w-12 rounded-full">
+            <img src="https://i.pravatar.cc/150?img=40" alt="Admin" />
+          </div>
+        </div>
+        <div>
+          <div class="font-bold">Admin User</div>
+          <div class="text-sm opacity-50">General Manager</div>
+        </div>
+      </div>
+      
+      <!-- Sidebar Navigation Menu -->
+      <ul class="menu p-4 font-medium">
+        <li class="menu-title">Main</li>
+        <li>
+          <a routerLink="/dashboard" routerLinkActive="active" class="flex items-center">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6A2.25 2.25 0 016 3.75h2.25A2.25 2.25 0 0110.5 6v2.25a2.25 2.25 0 01-2.25 2.25H6a2.25 2.25 0 01-2.25-2.25V6zM3.75 15.75A2.25 2.25 0 016 13.5h2.25a2.25 2.25 0 012.25 2.25V18a2.25 2.25 0 01-2.25 2.25H6A2.25 2.25 0 013.75 18v-2.25zM13.5 6a2.25 2.25 0 012.25-2.25H18A2.25 2.25 0 0120.25 6v2.25A2.25 2.25 0 0118 10.5h-2.25a2.25 2.25 0 01-2.25-2.25V6zM13.5 15.75a2.25 2.25 0 012.25-2.25H18a2.25 2.25 0 012.25 2.25V18A2.25 2.25 0 0118 20.25h-2.25A2.25 2.25 0 0113.5 18v-2.25z" />
+            </svg>
+            Dashboard
+          </a>
+        </li>
+        
+        <li class="menu-title mt-4">Hotel Management</li>
+        <li>
+          <a routerLink="/dashboard/reservations" routerLinkActive="active">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5" />
+            </svg>
+            Reservations
+          </a>
+        </li>
+        <li>
+          <a routerLink="/dashboard/rooms" routerLinkActive="active">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 12l8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25" />
+            </svg>
+            Rooms & Suites
+          </a>
+        </li>
+        <li>
+          <a routerLink="/dashboard/services" routerLinkActive="active">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09zM18.259 8.715L18 9.75l-.259-1.035a3.375 3.375 0 00-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 002.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 002.456 2.456L21.75 6l-1.035.259a3.375 3.375 0 00-2.456 2.456zM16.894 20.567L16.5 21.75l-.394-1.183a2.25 2.25 0 00-1.423-1.423L13.5 18.75l1.183-.394a2.25 2.25 0 001.423-1.423l.394-1.183.394 1.183a2.25 2.25 0 001.423 1.423l1.183.394-1.183.394a2.25 2.25 0 00-1.423 1.423z" />
+            </svg>
+            Services
+          </a>
+        </li>
+        <li>
+          <a routerLink="/dashboard/events" routerLinkActive="active">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5" />
+            </svg>
+            Events
+          </a>
+        </li>
+        
+        <li class="menu-title mt-4">Staff Management</li>
+        <li>
+          <a routerLink="/dashboard/employees" routerLinkActive="active">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M15 19.128a9.38 9.38 0 002.625.372 9.337 9.337 0 004.121-.952 4.125 4.125 0 00-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 018.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0111.964-3.07M12 6.375a3.375 3.375 0 11-6.75 0 3.375 3.375 0 016.75 0zm8.25 2.25a2.625 2.625 0 11-5.25 0 2.625 2.625 0 015.25 0z" />
+            </svg>
+            Employees
+          </a>
+        </li>
+        <li>
+          <a routerLink="/dashboard/scheduling" routerLinkActive="active">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+            Scheduling
+          </a>
+        </li>
+        <li>
+          <a routerLink="/dashboard/performance" routerLinkActive="active">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 013 19.875v-6.75zM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V8.625zM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V4.125z" />
+            </svg>
+            Performance
+          </a>
+        </li>
+        
+        <li class="menu-title mt-4">Administration</li>
+        <li>
+          <a routerLink="/dashboard/reports" routerLinkActive="active">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 3v11.25A2.25 2.25 0 006 16.5h2.25M3.75 3h-1.5m1.5 0h16.5m0 0h1.5m-1.5 0v11.25A2.25 2.25 0 0118 16.5h-2.25m-7.5 0h7.5m-7.5 0l-1 3m8.5-3l1 3m0 0l.5 1.5m-.5-1.5h-9.5m0 0l-.5 1.5m.75-9l3-3 2.148 2.148A12.061 12.061 0 0116.5 7.605" />
+            </svg>
+            Reports & Analytics
+          </a>
+        </li>
+        <li>
+          <a routerLink="/dashboard/settings" routerLinkActive="active">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M9.594 3.94c.09-.542.56-.94 1.11-.94h2.593c.55 0 1.02.398 1.11.94l.213 1.281c.063.374.313.686.645.87.074.04.147.083.22.127.324.196.72.257 1.075.124l1.217-.456a1.125 1.125 0 011.37.49l1.296 2.247a1.125 1.125 0 01-.26 1.431l-1.003.827c-.293.24-.438.613-.431.992a6.759 6.759 0 010 .255c-.007.378.138.75.43.99l1.005.828c.424.35.534.954.26 1.43l-1.298 2.247a1.125 1.125 0 01-1.369.491l-1.217-.456c-.355-.133-.75-.072-1.076.124a6.57 6.57 0 01-.22.128c-.331.183-.581.495-.644.869l-.213 1.28c-.09.543-.56.941-1.11.941h-2.594c-.55 0-1.02-.398-1.11-.94l-.213-1.281c-.062-.374-.312-.686-.644-.87a6.52 6.52 0 01-.22-.127c-.325-.196-.72-.257-1.076-.124l-1.217.456a1.125 1.125 0 01-1.369-.49l-1.297-2.247a1.125 1.125 0 01.26-1.431l1.004-.827c.292-.24.437-.613.43-.992a6.932 6.932 0 010-.255c.007-.378-.138-.75-.43-.99l-1.004-.828a1.125 1.125 0 01-.26-1.43l1.297-2.247a1.125 1.125 0 011.37-.491l1.216.456c.356.133.751.072 1.076-.124.072-.044.146-.087.22-.128.332-.183.582-.495.644-.869l.214-1.281z" />
+              <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+            </svg>
+            Settings
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>

@@ -18,10 +18,12 @@ public class EmployeeRestApi {
     private IEmployeeService iemployeeService;
     @Autowired
     private IEmailService emailService;
+
     @Autowired
     private ExportServiceImp exportServiceImp;
     @Autowired
     private CalendarService calendarService;
+
     @GetMapping("/allEmployees")
     public List<Employee> getAll() {
 
@@ -92,6 +94,7 @@ public class EmployeeRestApi {
         }
 
         return saved;
+
     }
     @GetMapping("/export/pdf")
     public ResponseEntity<Resource> exportEmployeesPDF() {
@@ -106,6 +109,7 @@ public class EmployeeRestApi {
             e.printStackTrace();
             return ResponseEntity.status(500).build();
         }
+
     }
     @PostMapping("/{id}/calendar-invite")
     public ResponseEntity<?> sendCalendarInvite(

@@ -1,0 +1,51 @@
+<div class="container mt-4">
+    <div *ngIf="loading" class="text-center">
+      <div class="spinner-border" role="status">
+        <span class="visually-hidden">Loading...</span>
+      </div>
+    </div>
+    
+    <div *ngIf="error" class="alert alert-danger">
+      {{ error }}
+    </div>
+    
+    <div *ngIf="!loading && !error && service">
+      <div class="card">
+        <div class="card-header d-flex justify-content-between align-items-center">
+          <h3>{{ service.name }}</h3>
+          <span class="badge" [ngClass]="service.available ? 'bg-success' : 'bg-danger'">
+            {{ service.available ? 'Available' : 'Unavailable' }}
+          </span>
+        </div>
+        <div class="card-body">
+          <h5 class="card-title">Details</h5>
+          <p class="card-text">{{ service.description }}</p>
+          
+          <div class="row mt-4">
+            <div class="col-md-6">
+              <h6>Service Information</h6>
+              <ul class="list-group list-group-flush">
+                <li class="list-group-item">
+                  <strong>Price:</strong> {{ service.price | currency }}
+                </li>
+                <li class="list-group-item">
+                  <strong>Opening Hours:</strong> {{ service.openingTime }} - {{ service.closingTime }}
+                </li>
+                <li class="list-group-item">
+                  <strong>Service ID:</strong> {{ service.id }}
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="card-footer">
+          <div class="d-flex gap-2">
+            <button class="btn btn-outline-primary" (click)="navigateToList()">Back to List</button>
+            <button class="btn btn-outline-secondary" (click)="navigateToEdit()">Edit</button>
+            <button class="btn btn-outline-danger ms-auto" (click)="deleteService()">Delete</button>
+            <button class="btn btn-success" (click)="navigateToPayment()">Pay Now</button>          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
