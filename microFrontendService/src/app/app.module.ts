@@ -8,13 +8,18 @@ import { AppComponent } from './app.component';
 import { ServiceListComponent } from './components/service-list/service-list.component';
 import { ServiceDetailsComponent } from './components/service-detail/service-detail.component';
 import { ServiceFormComponent } from './components/service-form/service-form.component';
+import { ServicePaymentComponent } from './components/service-payment/service-payment.component';
+import { PaymentSuccessComponent } from './components/payment-succes/payment-succes.component';
+
 
 @NgModule({
   declarations: [
     AppComponent,
     ServiceListComponent,
     ServiceDetailsComponent,
-    ServiceFormComponent
+    ServiceFormComponent,
+    ServicePaymentComponent,
+    PaymentSuccessComponent
   ],
   imports: [
     BrowserModule,
