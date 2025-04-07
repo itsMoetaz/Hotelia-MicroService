@@ -1,9 +1,11 @@
 package com.esprit.microservice.evenement;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -14,7 +16,25 @@ public class EvenementRestApi {
     @Autowired
     private EvenementService evenementService;
 
-    //ajouter evenement
+    @Autowired
+    private ServiceSms serviceSms;
+
+
+
+    //recuperer tous evenements
+    @RequestMapping
+    public ResponseEntity<List<Evenement>> getAll() {
+        return new ResponseEntity<>(evenementService.getAll(), HttpStatus.OK);
+    }
+
+    @GetMapping (value = "/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public ResponseEntity<Evenement> getEvenementById(@PathVariable(value = "id") int id){
+        return new ResponseEntity<>(evenementService.getEvenementById(id), HttpStatus.OK);
+    }
+
+
+    //ajouter evenement  avec condition
     @PostMapping(value = "/add")
     @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<Evenement> createEvenement(@RequestBody Evenement evenement) {
@@ -27,6 +47,13 @@ public class EvenementRestApi {
         }
     }
 
+    //supprimer evenements
+    @DeleteMapping(value = "/delete/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public ResponseEntity<String> deleteEvenement(@PathVariable(value = "id") int id){
+        return new ResponseEntity<>(evenementService.deleteEvenement(id), HttpStatus.OK);
+    }
+    /*** Metiers hors crud ***/
 //filtrer par etat
     @GetMapping("/filter/{etat}")
     @ResponseStatus(HttpStatus.OK)
@@ -34,12 +61,8 @@ public class EvenementRestApi {
         List<Evenement> evenements = evenementService.getEvenementsByEtat(etat);
         return new ResponseEntity<>(evenements, HttpStatus.OK);
     }
-    //recuperer tous evenements
-    @RequestMapping
-    public ResponseEntity<List<Evenement>> getAll() {
-        return new ResponseEntity<>(evenementService.getAll(), HttpStatus.OK);
-    }
 
+//trier les evenements par prix
     @GetMapping("/sorted/desc")
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<?> getPayantsSortedDesc() {
@@ -74,15 +97,12 @@ public class EvenementRestApi {
     }
 
 
-    @GetMapping (value = "/{id}")
-    @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<Evenement> getEvenementById(@PathVariable(value = "id") int id){
-        return new ResponseEntity<>(evenementService.getEvenementById(id), HttpStatus.OK);
+    //Api Sms personnaliser
+
+    @PostMapping("/sendSms")
+    public void sendSms(@RequestBody SmsRequest smsRequest) {
+        serviceSms.sendSms(smsRequest);
     }
-    //supprimer evenements
-    @DeleteMapping(value = "/delete/{id}")
-    @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<String> deleteEvenement(@PathVariable(value = "id") int id){
-        return new ResponseEntity<>(evenementService.deleteEvenement(id), HttpStatus.OK);
-    }
+
+
 }

@@ -10,8 +10,25 @@ public class EvenementService {
 
     @Autowired
     private EvenementRepository evenementeRepository;
+    @Autowired
+    private TwilioSmsSender service ;
 
-    //add evenements
+
+    //en va prend a la suite user connecte 
+    private final String userPhoneNumber = "+21623369399";
+
+    //récuperer tous evenements
+    public List<Evenement> getAll()
+    {return evenementeRepository.findAll();}
+
+
+    //recupere evenement par id
+    public Evenement getEvenementById(Integer id) {
+        return evenementeRepository.findById(id).orElseThrow(() -> new RuntimeException("Evenement non trouvé"));
+    }
+
+
+    //add evenements avec condition de type et sms pour les evenements gratuit
     public Evenement addEvenement(Evenement e) {
 
             // Si l'événement est GRATUIT, on fixe le prix à 0
@@ -24,6 +41,11 @@ public class EvenementService {
                 throw new IllegalArgumentException("Le prix doit être renseigné et supérieur à 0 pour un événement PAYANT !");
             }
 
+
+        if (e.getEtat() == EtatEvenement.GRATUIT) {
+            String message = "Profitez ! Un nouvel événement gratuit vient d'être ajouté.";
+            service.sendSmsAdd(userPhoneNumber, message);
+        }
             // Sauvegarde de l'événement
             return evenementeRepository.save(e);
     }
@@ -60,15 +82,6 @@ public class EvenementService {
 
 
 
-    //récuperer tous evenements
-    public List<Evenement> getAll()
-    {return evenementeRepository.findAll();}
-
-
-    //recupere evenement par id
-    public Evenement getEvenementById(Integer id) {
-        return evenementeRepository.findById(id).orElseThrow(() -> new RuntimeException("Evenement non trouvé"));
-    }
 
 
     //modifier venenemnts
