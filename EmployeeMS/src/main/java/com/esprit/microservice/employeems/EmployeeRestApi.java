@@ -10,6 +10,8 @@ import java.util.List;
 public class EmployeeRestApi {
     @Autowired
     private IEmployeeService iemployeeService;
+    @Autowired
+    private IEmailService emailService;
 
     @GetMapping("/allEmployees")
     public List<Employee> getAll() {
@@ -35,6 +37,9 @@ public class EmployeeRestApi {
             return null; // Or throw an exception
         }
 
+        Position oldPosition = existingEmployee.getPosition(); // 🔥 Save BEFORE modifying
+        Position newPosition = updatedEmployee.getPosition();
+
         // Only update fields that are not null in the request
         if (updatedEmployee.getFirstName() != null) {
             existingEmployee.setFirstName(updatedEmployee.getFirstName());
@@ -48,8 +53,8 @@ public class EmployeeRestApi {
         if (updatedEmployee.getPhoneNumber() != null) {
             existingEmployee.setPhoneNumber(updatedEmployee.getPhoneNumber());
         }
-        if (updatedEmployee.getPosition() != null) {
-            existingEmployee.setPosition(updatedEmployee.getPosition());
+        if (newPosition != null) {
+            existingEmployee.setPosition(newPosition);
         }
         if (updatedEmployee.getAssignedTasks() != null) {
             existingEmployee.setAssignedTasks(updatedEmployee.getAssignedTasks());
@@ -64,7 +69,20 @@ public class EmployeeRestApi {
             existingEmployee.setAvatar(updatedEmployee.getAvatar());
         }
 
-        return iemployeeService.updateEmployee(existingEmployee);
+        // Compare old vs. new positions BEFORE saving
+        boolean positionChanged = oldPosition != null && newPosition != null && !oldPosition.equals(newPosition);
+        System.out.println("Old position: " + oldPosition);
+        System.out.println("New position: " + newPosition);
+        System.out.println("Changed? " + positionChanged);
+
+        Employee saved = iemployeeService.updateEmployee(existingEmployee);
+
+        if (positionChanged) {
+            System.out.println("Sending position change email...");
+            emailService.sendPositionUpdateEmail(saved, oldPosition);
+        }
+
+        return saved;
     }
 
     @DeleteMapping("/deleteEmployee/{id}")
