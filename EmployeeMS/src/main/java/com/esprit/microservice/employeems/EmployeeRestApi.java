@@ -1,9 +1,15 @@
 package com.esprit.microservice.employeems;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ByteArrayResource;
+import org.springframework.core.io.Resource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/employees")
@@ -12,7 +18,10 @@ public class EmployeeRestApi {
     private IEmployeeService iemployeeService;
     @Autowired
     private IEmailService emailService;
-
+    @Autowired
+    private ExportServiceImp exportServiceImp;
+    @Autowired
+    private CalendarService calendarService;
     @GetMapping("/allEmployees")
     public List<Employee> getAll() {
 
@@ -84,7 +93,46 @@ public class EmployeeRestApi {
 
         return saved;
     }
+    @GetMapping("/export/pdf")
+    public ResponseEntity<Resource> exportEmployeesPDF() {
+        try {
+            ByteArrayResource resource = exportServiceImp.exportEmployeesToPDF();
+            return ResponseEntity.ok()
+                    .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=employees.pdf")
+                    .contentType(MediaType.APPLICATION_PDF)
+                    .contentLength(resource.contentLength())
+                    .body(resource);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(500).build();
+        }
+    }
+    @PostMapping("/{id}/calendar-invite")
+    public ResponseEntity<?> sendCalendarInvite(
+            @PathVariable Long id,
+            @RequestBody TaskCalendarRequest request) {
+        try {
+            String eventLink = calendarService.createTaskEvent(
+                    id,
+                    request.getTitle(),
+                    request.getDescription(),
+                    request.getStartDateTime(),
+                    request.getEndDateTime(),
+                    request.getAssigneeIds()
+            );
 
+            return ResponseEntity.ok(Map.of(
+                    "success", true,
+                    "message", "Calendar invite sent successfully",
+                    "eventLink", eventLink
+            ));
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body(Map.of(
+                    "success", false,
+                    "message", "Failed to send calendar invite: " + e.getMessage()
+            ));
+        }
+    }
     @DeleteMapping("/deleteEmployee/{id}")
     public void deleteEmployee(@PathVariable Long id) {
         iemployeeService.deleteEmployee(id);
