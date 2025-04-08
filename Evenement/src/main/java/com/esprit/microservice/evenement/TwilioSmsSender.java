@@ -20,7 +20,7 @@ public class TwilioSmsSender implements SmsSender {
     public TwilioSmsSender(TwilioConfiguration twilioConfiguration) {
         this.twilioConfiguration = twilioConfiguration;
     }
-
+//ersonnalise
     @Override
     public void sendSms(SmsRequest smsRequest) {
         if (isPhoneNumberValid(smsRequest.getPhoneNumber())) {
@@ -43,6 +43,8 @@ public class TwilioSmsSender implements SmsSender {
         }
     }
 
+
+    /** envoyer message pour number emplayee **/
     public void sendSmsAdd(String to, String message) {
         Message.creator(
                 new PhoneNumber(to),

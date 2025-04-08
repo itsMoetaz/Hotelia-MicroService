@@ -5,13 +5,21 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
+
 @Service
 public class EvenementService {
 
     @Autowired
     private EvenementRepository evenementeRepository;
+
+    @Autowired
+    private ParticipationRepository participationRepository;
+
     @Autowired
     private TwilioSmsSender service ;
+
+    private final String EMAIL_STATIQUE = "employe8@example.com";
 
 
     //en va prend a la suite user connecte
@@ -27,6 +35,34 @@ public class EvenementService {
         return evenementeRepository.findById(id).orElseThrow(() -> new RuntimeException("Evenement non trouvé"));
     }
 
+
+    //modifier envenemnts
+    public Evenement updateEvenement(int id, Evenement evenement) {
+        if (evenementeRepository.findById(id).isPresent()) {
+
+            Evenement existing = evenementeRepository.findById(id).get();
+            existing.setNom(evenement.getNom());
+            existing.setDescription(evenement.getDescription());
+            existing.setDateDebut(evenement.getDateDebut());
+            existing.setDateFin(evenement.getDateFin());
+            existing.setLieu(evenement.getLieu());
+            existing.setPrix(evenement.getPrix());
+
+
+            return evenementeRepository.save(existing);
+        } else
+            return null;
+    }
+    public String deleteEvenement(int id) {
+        if (evenementeRepository.findById(id).isPresent()) {
+            evenementeRepository.deleteById(id);
+            return "evenement supprimé";
+        } else
+            return "evenement non supprimé";
+    }
+
+
+    /********services avancées **/
 
     //add evenements avec condition de type et sms pour les evenements gratuit
     public Evenement addEvenement(Evenement e) {
@@ -84,30 +120,43 @@ public class EvenementService {
 
 
 
+    // Méthode pour participer à un événement
+    public String participerAEvenement(int evenementId) {
+        // Vérifier si l'événement existe
+        Optional<Evenement> evenementOptional = evenementeRepository.findById(evenementId);
+        if (evenementOptional.isEmpty()) {
+            return "Événement non trouvé.";
+        }
 
-    //modifier venenemnts
-    public Evenement updateEvenement(int id, Evenement evenement) {
-        if (evenementeRepository.findById(id).isPresent()) {
+        Evenement evenement = evenementOptional.get();
 
-            Evenement existing = evenementeRepository.findById(id).get();
-            existing.setNom(evenement.getNom());
-            existing.setDescription(evenement.getDescription());
-            existing.setDateDebut(evenement.getDateDebut());
-            existing.setDateFin(evenement.getDateFin());
-            existing.setLieu(evenement.getLieu());
-            existing.setPrix(evenement.getPrix());
-            existing.setPrix(evenement.getLikes());
-            existing.setPrix(evenement.getDislikes());
+        // Vérifier si l'employé a déjà participé à cet événement
+        Optional<Participation> participationExistante = participationRepository
+                .findByEmailAndEvenement(EMAIL_STATIQUE, evenement);
 
-            return evenementeRepository.save(existing);
-        } else
-            return null;
+        if (participationExistante.isPresent()) {
+            return "L'employé a déjà participé à cet événement.";
+        }
+
+        // Si l'événement est payant et que l'employé a déjà participé à un événement payant
+        if (evenement.getPrix() > 0 && participationExistante.isPresent()) {
+            return "L'employé ne peut participer à un événement payant plus d'une fois.";
+        }
+
+        // Ajouter la participation
+        Participation participation = new Participation(EMAIL_STATIQUE, evenement, evenement.getPrix() > 0);
+        participationRepository.save(participation);
+
+        // Mettre à jour le nombre de participations pour l'événement
+      evenement.setNbParticipationTotal(evenement.getNbParticipationTotal() + 1);  // Augmenter le compteur de participation
+        evenementeRepository.save(evenement);
+        String message = String.format("🎉 Vous avez réussi à vous inscrire à l'événement '%s'. Rendez-vous le %s à l'hotel %s. À bientôt !",
+                evenement.getNom(), evenement.getDateDebut(), evenement.getLieu());
+        service.sendSmsAdd(userPhoneNumber, message);
+        return "L'employé a participé avec succès à l'événement.";
     }
-    public String deleteEvenement(int id) {
-        if (evenementeRepository.findById(id).isPresent()) {
-            evenementeRepository.deleteById(id);
-            return "evenement supprimé";
-        } else
-            return "evenement non supprimé";
-    }
+
+
+
+
 }

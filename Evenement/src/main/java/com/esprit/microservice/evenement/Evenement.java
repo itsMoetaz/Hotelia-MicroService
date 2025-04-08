@@ -25,6 +25,8 @@ public class Evenement {
 
     private double prix;
 
+    private int nbParticipationTotal;
+
 
     @Enumerated(EnumType.STRING)
     private EtatEvenement etat;
@@ -131,6 +133,15 @@ public class Evenement {
 
     public void setDislikes(int dislikes) {
         this.dislikes = dislikes;
+    }
+
+
+    public int getNbParticipationTotal() {
+        return nbParticipationTotal;
+    }
+
+    public void setNbParticipationTotal(int nbParticipationTotal) {
+        this.nbParticipationTotal = nbParticipationTotal;
     }
 
     @Override
