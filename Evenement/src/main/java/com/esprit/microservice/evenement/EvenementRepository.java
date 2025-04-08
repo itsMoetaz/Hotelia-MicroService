@@ -15,9 +15,9 @@ public interface EvenementRepository extends JpaRepository<Evenement, Integer>{
     //filtrage par etat
     List<Evenement> findByEtat(EtatEvenement etat);
 
-
+    // Récupérer les événements PAYANT triés par prix décroissant
     List<Evenement> findByEtatOrderByPrixAsc(EtatEvenement etat);
 
-    // Récupérer les événements PAYANT triés par prix décroissant
+
     List<Evenement> findByEtatOrderByPrixDesc(EtatEvenement etat);
 }
