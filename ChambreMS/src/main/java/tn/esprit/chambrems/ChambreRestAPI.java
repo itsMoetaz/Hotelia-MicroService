@@ -2,6 +2,7 @@ package tn.esprit.chambrems;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpStatus;
@@ -14,9 +15,10 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
+
+import org.springframework.http.HttpHeaders;
 
 @RestController
 @RequestMapping("/chambre")
@@ -24,6 +26,26 @@ import java.util.Optional;
 public class ChambreRestAPI {
     @Autowired
     private ChambreService chambreService;
+
+    // Endpoint pour télécharger le PDF des chambres
+    @GetMapping(value = "/export/pdf", produces = MediaType.APPLICATION_PDF_VALUE)
+    public ResponseEntity<Resource> downloadChambresAsPdf() {
+        System.out.println("===== TÉLÉCHARGEMENT DU PDF DEPUIS LE CONTROLLER =====");
+        try {
+            ByteArrayResource resource = chambreService.exportChambresToPDF();
+            return ResponseEntity.ok()
+                    .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=ListeChambres.pdf")
+                    .contentType(MediaType.APPLICATION_PDF)
+                    .contentLength(resource.contentLength())
+                    .body(resource);
+        } catch (Exception e) {
+            System.out.println("Échec : Erreur lors du téléchargement du PDF -> " + e.getMessage());
+            e.printStackTrace();
+            System.out.println("=====================================");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
+
     // 2. Récupérer toutes les chambres
     @GetMapping("/all")
     public ResponseEntity<List<Chambre>> getAllChambres() {
@@ -36,7 +58,7 @@ public class ChambreRestAPI {
     }
 
     // 2. Récupérer une chambre par ID
-    @GetMapping("/{id}")
+    @GetMapping("/{id:\\d+}")
     public ResponseEntity<Chambre> getChambreById(@PathVariable Long id) {
         System.out.println("===== RÉCUPÉRATION CHAMBRE PAR ID =====");
         System.out.println("ID demandé : " + id);
@@ -51,18 +73,8 @@ public class ChambreRestAPI {
             return ResponseEntity.notFound().build();
         }
     }
-    //  Ajouter une chambre
-    /*@PostMapping("/add")
-    public ResponseEntity<Chambre> ajouterChambre(@RequestBody Chambre chambre) {
-        System.out.println("===== AJOUT D'UNE CHAMBRE =====");
-        System.out.println("Détails de la chambre : " + chambre);
-        Chambre nouvelleChambre = chambreService.ajouterChambre(chambre);
-        System.out.println("Succès : Chambre ajoutée -> " + nouvelleChambre);
-        System.out.println("==============================");
-        return ResponseEntity.ok(nouvelleChambre);
 
-    }
-    */
+    // Ajouter une chambre
     @PostMapping(value = "/add", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<Chambre> ajouterChambre(
             @RequestPart("chambre") Chambre chambre,
@@ -80,8 +92,9 @@ public class ChambreRestAPI {
             return ResponseEntity.badRequest().build();
         }
     }
+
     // 4. Modifier une chambre
-    @PutMapping(value = "/update/{id}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @PutMapping(value = "/update/{id:\\d+}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<Chambre> updateChambre(
             @PathVariable Long id,
             @RequestPart("chambre") Chambre chambreDetails,
@@ -113,7 +126,7 @@ public class ChambreRestAPI {
     }
 
     // 5. Supprimer une chambre
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("/delete/{id:\\d+}")
     public ResponseEntity<Void> deleteChambre(@PathVariable Long id) {
         System.out.println("===== SUPPRESSION D'UNE CHAMBRE =====");
         System.out.println("ID à supprimer : " + id);
@@ -239,7 +252,7 @@ public class ChambreRestAPI {
     }
 
     // Changer la disponibilité d'une chambre
-    @PutMapping("/disponibilite/{id}")
+    @PutMapping("/disponibilite/{id:\\d+}")
     public ResponseEntity<Chambre> changerDisponibilite(@PathVariable Long id, @RequestParam boolean etat) {
         System.out.println("===== CHANGEMENT DE DISPONIBILITÉ =====");
         System.out.println("ID : " + id + " | Nouvel état : " + etat);
@@ -250,7 +263,7 @@ public class ChambreRestAPI {
     }
 
     // Recommander des chambres similaires
-    @GetMapping("/recommander/{id}")
+    @GetMapping("/recommander/{id:\\d+}")
     public ResponseEntity<List<Chambre>> recommander(@PathVariable Long id) {
         System.out.println("===== RECOMMANDATION DE CHAMBRES =====");
         System.out.println("ID de référence : " + id);
@@ -262,7 +275,7 @@ public class ChambreRestAPI {
     }
 
     // Ajouter un historique d'occupation
-    @PostMapping("/{id}/historique")
+    @PostMapping("/{id:\\d+}/historique")
     public ResponseEntity<HistoriqueOccupation> ajouterHistorique(
             @PathVariable Long id,
             @RequestBody HistoriqueOccupation historique) {
@@ -286,7 +299,7 @@ public class ChambreRestAPI {
     }
 
     // Récupérer l'historique d'occupation
-    @GetMapping("/{id}/historique")
+    @GetMapping("/{id:\\d+}/historique")
     public ResponseEntity<List<HistoriqueOccupation>> getHistorique(@PathVariable Long id) {
         System.out.println("===== RÉCUPÉRATION HISTORIQUE D'OCCUPATION =====");
         System.out.println("ID de la chambre : " + id);
