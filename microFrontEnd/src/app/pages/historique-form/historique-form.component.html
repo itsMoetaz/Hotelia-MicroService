@@ -1,0 +1,111 @@
+<div class="p-4">
+    <h2 class="text-lg font-bold mb-4">Ajouter un historique d'occupation</h2>
+  
+    <!-- Error message -->
+    <div *ngIf="error" class="alert alert-error mb-4">
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 me-2 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v3.75m9-.75a9 9 0 11-18 0 9 9 0 0118 0zm-9 3.75h.008v.008H12v-.008z" />
+      </svg>
+      <span>{{ error }}</span>
+    </div>
+  
+    <form [formGroup]="historiqueForm" (ngSubmit)="onSubmit()">
+      <!-- Locataire -->
+      <div class="form-control mb-4">
+        <label class="label">
+          <span class="label-text">Locataire *</span>
+        </label>
+        <input
+          type="text"
+          formControlName="locataire"
+          class="input input-bordered w-full"
+          placeholder="Nom du locataire"
+          [class.input-error]="historiqueForm.get('locataire')?.invalid && historiqueForm.get('locataire')?.touched"
+        />
+        <div
+          *ngIf="historiqueForm.get('locataire')?.invalid && historiqueForm.get('locataire')?.touched"
+          class="text-error text-sm mt-1"
+        >
+          Le nom du locataire est requis.
+        </div>
+      </div>
+  
+      <!-- Date Début -->
+      <div class="form-control mb-4">
+        <label class="label">
+          <span class="label-text">Date Début *</span>
+        </label>
+        <input
+          type="date"
+          formControlName="dateDebut"
+          class="input input-bordered w-full"
+          [class.input-error]="historiqueForm.get('dateDebut')?.invalid && historiqueForm.get('dateDebut')?.touched"
+        />
+        <div
+          *ngIf="historiqueForm.get('dateDebut')?.invalid && historiqueForm.get('dateDebut')?.touched"
+          class="text-error text-sm mt-1"
+        >
+          La date de début est requise.
+        </div>
+      </div>
+  
+      <!-- Date Fin -->
+      <div class="form-control mb-4">
+        <label class="label">
+          <span class="label-text">Date Fin *</span>
+        </label>
+        <input
+          type="date"
+          formControlName="dateFin"
+          class="input input-bordered w-full"
+          [class.input-error]="historiqueForm.get('dateFin')?.invalid && historiqueForm.get('dateFin')?.touched"
+        />
+        <div
+          *ngIf="historiqueForm.get('dateFin')?.invalid && historiqueForm.get('dateFin')?.touched"
+          class="text-error text-sm mt-1"
+        >
+          La date de fin est requise.
+        </div>
+      </div>
+  
+      <!-- Durée -->
+      <div class="form-control mb-4">
+        <label class="label">
+          <span class="label-text">Durée (jours) *</span>
+        </label>
+        <input
+          type="number"
+          formControlName="duree"
+          class="input input-bordered w-full"
+          placeholder="Durée en jours"
+          [class.input-error]="historiqueForm.get('duree')?.invalid && historiqueForm.get('duree')?.touched"
+        />
+        <div
+          *ngIf="historiqueForm.get('duree')?.invalid && historiqueForm.get('duree')?.touched"
+          class="text-error text-sm mt-1"
+        >
+          La durée doit être un nombre positif.
+        </div>
+      </div>
+  
+      <!-- Buttons -->
+      <div class="modal-action">
+        <button
+          type="submit"
+          class="btn btn-primary"
+          [disabled]="loading || historiqueForm.invalid"
+        >
+          <span *ngIf="loading" class="loading loading-spinner"></span>
+          Ajouter
+        </button>
+        <button
+          type="button"
+          class="btn btn-outline"
+          (click)="onCancel()"
+          [disabled]="loading"
+        >
+          Annuler
+        </button>
+      </div>
+    </form>
+  </div>
