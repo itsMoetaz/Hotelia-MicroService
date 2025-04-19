@@ -26,6 +26,8 @@ public class ApiGatewayApplication {
 
                 .route("Evenements", r->r.path("/evenements/**")
                         .uri("http://localhost:8085"))
+                .route("GestionReservation",r->r.path("/reservations/**").uri("lb://GestionReservation"))
+
                 .build();
     }
 }
