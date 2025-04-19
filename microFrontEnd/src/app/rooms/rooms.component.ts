@@ -23,6 +23,18 @@ export class RoomsComponent implements OnInit {
   showHistoriqueForm: boolean = false; // Pour afficher/masquer le formulaire
   currentChambreId: number | null = null; // Pour stocker l'ID de la chambre sélectionnée
 
+  // Variables pour les filtres
+  selectedType: string = '';
+  types: string[] = ['SIMPLE', 'DOUBLE', 'SUITE'];
+  minPrice: number | null = null;
+  maxPrice: number | null = null;
+
+  // Variables pour les recommandations
+  showRecommandations: boolean = false;
+  recommandations: Chambre[] = [];
+  recommendedForChambreId?: number;
+
+  
   constructor(
     private chambreService: ChambreService,
     private sanitizer: DomSanitizer,
@@ -142,5 +154,79 @@ export class RoomsComponent implements OnInit {
     this.showHistorique = false;
     this.historiques = [];
     this.selectedChambreId = null;
+  }
+
+  // Filtrer les chambres disponibles par type
+  filterByType(): void {
+    if (this.selectedType) {
+      this.isLoading = true;
+      this.errorMessage = null;
+      this.chambreService.getChambresDisponiblesParType(this.selectedType).subscribe({
+        next: (data: Chambre[]) => {
+          this.chambres = data;
+          this.showRecommandations = false;
+          this.isLoading = false;
+        },
+        error: (err: any) => {
+          console.error('Erreur lors du filtrage par type:', err);
+          this.errorMessage = 'Erreur lors du filtrage par type. Veuillez réessayer.';
+          this.isLoading = false;
+        }
+      });
+    } else {
+      this.loadChambres();
+    }
+  }
+
+  // Filtrer les chambres par plage de prix
+  filterByPrice(): void {
+    if (this.minPrice != null && this.maxPrice != null && this.minPrice <= this.maxPrice) {
+      this.isLoading = true;
+      this.errorMessage = null;
+      this.chambreService.getChambresByPrixRange(this.minPrice, this.maxPrice).subscribe({
+        next: (data: Chambre[]) => {
+          this.chambres = data;
+          this.showRecommandations = false;
+          this.isLoading = false;
+        },
+        error: (err: any) => {
+          console.error('Erreur lors du filtrage par prix:', err);
+          this.errorMessage = 'Erreur lors du filtrage par prix. Veuillez réessayer.';
+          this.isLoading = false;
+        }
+      });
+    } else {
+      if (this.minPrice && this.maxPrice && this.minPrice > this.maxPrice) {
+        this.errorMessage = 'Le prix minimum ne peut pas être supérieur au prix maximum.';
+      } else {
+        this.loadChambres();
+      }
+    }
+  }
+
+  // Récupérer les recommandations pour une chambre
+  getRecommandations(id: number): void {
+    this.isLoading = true;
+    this.errorMessage = null;
+    this.chambreService.recommanderChambresSimilaires(id).subscribe({
+      next: (data: Chambre[]) => {
+        this.recommandations = data;
+        this.showRecommandations = true;
+        this.recommendedForChambreId = id;
+        this.isLoading = false;
+      },
+      error: (err: any) => {
+        console.error('Erreur lors de la récupération des recommandations:', err);
+        this.errorMessage = 'Erreur lors de la récupération des recommandations. Veuillez réessayer.';
+        this.isLoading = false;
+      }
+    });
+  }
+
+  // Masquer les recommandations
+  hideRecommandations(): void {
+    this.showRecommandations = false;
+    this.recommandations = [];
+    this.recommendedForChambreId = undefined;
   }
 }
