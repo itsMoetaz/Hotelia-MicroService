@@ -31,3 +31,5 @@ build/
 
 ### VS Code ###
 .vscode/
+# Dossier uplod à ignorer
+uploads/
