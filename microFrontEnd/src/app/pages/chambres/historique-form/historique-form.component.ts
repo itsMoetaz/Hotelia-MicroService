@@ -1,8 +1,8 @@
 import { Component, Inject, OnInit,Input, Output, EventEmitter } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { ChambreService } from '../../services/chambre.service';
-import { HistoriqueOccupation } from '../../models/HistoriqueOccupation';
+import { ChambreService } from '../../../services/chambre.service';
+import { HistoriqueOccupation } from '../../../models/HistoriqueOccupation';
 
 @Component({
   selector: 'app-historique-form',

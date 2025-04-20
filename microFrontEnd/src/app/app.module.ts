@@ -9,10 +9,11 @@ import { HeaderComponent } from './shared/header/header.component';
 import { HomeComponent } from './pages/home/home.component';
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { HttpClientModule } from '@angular/common/http';
-import { RoomsComponent } from './rooms/rooms.component';
-import { ChambreFormComponent } from './pages/chambre-form/chambre-form.component';
+import { RoomsComponent } from './pages/chambres/rooms/rooms.component';
+//import { ChambreFormComponent } from './pages/chambre-form/chambre-form.component';
+import { ChambreFormComponent } from './pages/chambres/chambre-form/chambre-form.component';
 
-import { HistoriqueFormComponent } from './pages/historique-form/historique-form.component';
+import { HistoriqueFormComponent } from './pages/chambres/historique-form/historique-form.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -25,7 +26,8 @@ import { ListreservationsComponent } from './pages/reservations/listreservations
 import { DetailReservationsComponent } from './pages/reservations/detail-reservations/detail-reservations.component';
 import { AddreservationsComponent } from './pages/reservations/addreservations/addreservations.component';
 import { PaymentComponent } from './pages/reservations/payment/payment.component';
-
+import { FilterByAvailabilityPipe } from './pages/home/filter-by-availability.pipe';
+import { ClientRoomsComponent } from './pages/client-rooms/client-rooms.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -41,7 +43,9 @@ import { PaymentComponent } from './pages/reservations/payment/payment.component
     ListreservationsComponent,
     DetailReservationsComponent,
     AddreservationsComponent,
-    PaymentComponent
+    PaymentComponent,
+    FilterByAvailabilityPipe,
+    ClientRoomsComponent
   ],
   imports: [
     BrowserModule,

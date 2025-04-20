@@ -1,0 +1,81 @@
+<!-- Header Section -->
+  
+  <!-- Main Content -->
+  <main class="container mx-auto px-4 py-12 flex flex-col md:flex-row gap-8">
+    <!-- Filter Sidebar -->
+    <aside class="w-full md:w-1/4 bg-white p-6 rounded-lg shadow-lg">
+      <h2 class="text-2xl font-bold mb-6">Filter Rooms</h2>
+      
+      <!-- Room Type Filter -->
+      <div class="mb-6">
+        <label class="block text-sm font-medium text-gray-700 mb-2">Room Type</label>
+        <select [(ngModel)]="selectedType" (change)="filterByType()" class="w-full p-2 border rounded-lg focus:ring-2 focus:ring-blue-500">
+          <option value="">All Types</option>
+          <option value="SINGLE">Single</option>
+          <option value="DOUBLE">Double</option>
+          <option value="SUITE">Suite</option>
+        </select>
+      </div>
+  
+      <!-- Price Range Filter -->
+      <div class="mb-6">
+        <label class="block text-sm font-medium text-gray-700 mb-2">Price Range (€/night)</label>
+        <div class="flex gap-4">
+          <input type="number" [(ngModel)]="minPrice" placeholder="Min" class="w-full p-2 border rounded-lg focus:ring-2 focus:ring-blue-500">
+          <input type="number" [(ngModel)]="maxPrice" placeholder="Max" class="w-full p-2 border rounded-lg focus:ring-2 focus:ring-blue-500">
+        </div>
+        <button (click)="filterByPrice()" class="mt-4 w-full bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition duration-300">
+          Apply Price Filter
+        </button>
+      </div>
+    </aside>
+  
+    <!-- Rooms Grid -->
+    <div class="w-full md:w-3/4">
+      <!-- Loading State -->
+      <div *ngIf="isLoading" class="text-center py-12">
+        <div class="inline-block h-8 w-8 animate-spin rounded-full border-4 border-blue-600 border-t-transparent"></div>
+        <span class="ml-2 text-lg text-gray-600">Loading rooms...</span>
+      </div>
+  
+      <!-- Error Message -->
+      <div *ngIf="errorMessage" class="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 rounded-lg mb-6">
+        <div class="flex items-center">
+          <svg class="h-6 w-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v3.75m9-.75a9 9 0 11-18 0 9 9 0 0118 0zm-9 3.75h.008v.008H12v-.008z"></path>
+          </svg>
+          <span>{{ errorMessage }}</span>
+        </div>
+      </div>
+  
+      <!-- Rooms Grid -->
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div *ngFor="let chambre of filteredChambres" class="bg-white rounded-lg shadow-lg overflow-hidden transform hover:scale-105 transition duration-300">
+          <!-- Room Image -->
+          <div class="relative h-56">
+            <img *ngIf="getImageUrl(chambre.imageUrl)" [src]="getImageUrl(chambre.imageUrl)" alt="Room {{ chambre.numero }}" class="w-full h-full object-cover">
+            <div *ngIf="!getImageUrl(chambre.imageUrl)" class="w-full h-full bg-gray-200 flex items-center justify-center">
+              <svg class="h-12 w-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+              </svg>
+            </div>
+          </div>
+          <!-- Room Details -->
+          <div class="p-6">
+            <h3 class="text-xl font-bold text-gray-800 mb-2">Room {{ chambre.numero }}</h3>
+            <p class="text-lg font-semibold text-gray-600 mb-2">{{ chambre.type }}</p>
+            <p class="text-lg font-bold text-blue-600 mb-4">{{ chambre.prixParNuit }} € / night</p>
+            <p class="text-gray-600 text-sm mb-4 line-clamp-2">{{ chambre.description || 'No description available' }}</p>
+            <button class="w-full bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition duration-300" (click)="bookRoom(chambre.id)">
+              Book Now
+            </button>
+          </div>
+        </div>
+      </div>
+  
+      <!-- No Rooms Message -->
+      <div *ngIf="filteredChambres.length === 0 && !isLoading && !errorMessage" class="text-center py-12">
+        <p class="text-lg text-gray-600">No rooms match your criteria. Please adjust your filters or check back later.</p>
+      </div>
+    </div>
+  </main>
