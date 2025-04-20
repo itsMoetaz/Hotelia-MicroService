@@ -1,9 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-<<<<<<< HEAD
-=======
 
->>>>>>> 718809fa92954ce08482f507ac9f6eb2d7e880c2
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -14,10 +11,7 @@ import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { HttpClientModule } from '@angular/common/http';
 import { RoomsComponent } from './rooms/rooms.component';
 import { ChambreFormComponent } from './pages/chambre-form/chambre-form.component';
-<<<<<<< HEAD
-=======
 
->>>>>>> 718809fa92954ce08482f507ac9f6eb2d7e880c2
 import { HistoriqueFormComponent } from './pages/historique-form/historique-form.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatDialogModule } from '@angular/material/dialog';
@@ -25,6 +19,12 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatTableModule } from '@angular/material/table';
+import { LoginComponent } from './pages/auth/login/login.component';
+import { RegisterComponent } from './pages/auth/register/register.component';
+import { ListreservationsComponent } from './pages/reservations/listreservations/listreservations.component';
+import { DetailReservationsComponent } from './pages/reservations/detail-reservations/detail-reservations.component';
+import { AddreservationsComponent } from './pages/reservations/addreservations/addreservations.component';
+import { PaymentComponent } from './pages/reservations/payment/payment.component';
 
 @NgModule({
   declarations: [
@@ -35,18 +35,19 @@ import { MatTableModule } from '@angular/material/table';
     DashboardComponent,
     RoomsComponent,
     ChambreFormComponent,
-    HistoriqueFormComponent
+    HistoriqueFormComponent,
+    LoginComponent,
+    RegisterComponent,
+    ListreservationsComponent,
+    DetailReservationsComponent,
+    AddreservationsComponent,
+    PaymentComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
-<<<<<<< HEAD
-=======
- 
-    ReactiveFormsModule
 
->>>>>>> 718809fa92954ce08482f507ac9f6eb2d7e880c2
     ReactiveFormsModule,
     FormsModule,
     BrowserAnimationsModule,
