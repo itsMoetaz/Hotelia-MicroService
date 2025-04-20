@@ -70,11 +70,11 @@
         </svg>
       </label>
       
-      <!-- User menu -->
-      <div class="dropdown dropdown-end">
+      <!-- User menu pour utilisateurs connectés -->
+      <div *ngIf="currentUser" class="dropdown dropdown-end">
         <label tabindex="0" class="btn btn-ghost btn-circle avatar">
           <div class="w-10 rounded-full">
-            <img src="https://ui-avatars.com/api/?name=User" alt="User" />
+            <img [src]="'https://ui-avatars.com/api/?name=' + (currentUser.name || '')" [alt]="currentUser.name" />
           </div>
         </label>
         <ul tabindex="0" class="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52">
@@ -85,8 +85,14 @@
             </a>
           </li>
           <li><a>Settings</a></li>
-          <li><a>Logout</a></li>
+          <li><a (click)="logout()" [class.loading]="isLoading">Déconnexion</a></li>
         </ul>
+      </div>
+      
+      <!-- Boutons Connexion/Inscription pour utilisateurs non connectés -->
+      <div *ngIf="!currentUser" class="flex items-center space-x-2">
+        <a routerLink="/login" class="btn btn-sm btn-ghost">Connexion</a>
+        <a routerLink="/register" class="btn btn-sm btn-primary">Inscription</a>
       </div>
     </div>
   </div>

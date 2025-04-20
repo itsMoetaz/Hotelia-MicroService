@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
-import { ReactiveFormsModule } from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 
 
 import { AppRoutingModule } from './app-routing.module';
@@ -14,6 +14,12 @@ import { HttpClientModule } from '@angular/common/http';
 
 import { RoomsComponent } from './rooms/rooms.component';
 import { ChambreFormComponent } from './pages/chambre-form/chambre-form.component';
+import { AddreservationsComponent } from './pages/reservations/addreservations/addreservations.component';
+import { DetailReservationsComponent } from './pages/reservations/detail-reservations/detail-reservations.component';
+import { ListreservationsComponent } from './pages/reservations/listreservations/listreservations.component';
+import { PaymentComponent } from './pages/reservations/payment/payment.component';
+import { LoginComponent } from './pages/auth/login/login.component';
+import { RegisterComponent } from './pages/auth/register/register.component';
 
 
 @NgModule({
@@ -25,7 +31,13 @@ import { ChambreFormComponent } from './pages/chambre-form/chambre-form.componen
 
     DashboardComponent,
     RoomsComponent,
-    ChambreFormComponent
+    ChambreFormComponent,
+    AddreservationsComponent,
+    DetailReservationsComponent,
+    ListreservationsComponent,
+    PaymentComponent,
+    LoginComponent,
+    RegisterComponent
 
   ],
   imports: [
@@ -33,7 +45,8 @@ import { ChambreFormComponent } from './pages/chambre-form/chambre-form.componen
     AppRoutingModule,
 
     HttpClientModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    FormsModule
 
   ],
   providers: [],
