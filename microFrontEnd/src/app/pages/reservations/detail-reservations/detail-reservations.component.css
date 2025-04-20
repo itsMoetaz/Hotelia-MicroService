@@ -1,0 +1,199 @@
+/* Variables de couleurs pour le thème backoffice */
+:root {
+  --primary: #3f51b5;
+  --primary-light: #757de8;
+  --primary-dark: #002984;
+  --accent: #ff4081;
+  --text-primary: #212121;
+  --text-secondary: #757575;
+  --divider: #e0e0e0;
+  --background: #f5f5f5;
+  --card-bg: #ffffff;
+  --success: #4caf50;
+  --warning: #ff9800;
+  --danger: #f44336;
+}
+
+/* Style général du conteneur admin */
+.admin-container {
+  background-color: var(--background);
+  padding: 20px;
+  min-height: 80vh;
+  font-family: 'Roboto', 'Segoe UI', sans-serif;
+  color: var(--text-primary);
+}
+
+/* En-tête de la page de détail */
+.admin-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+  border-bottom: 1px solid var(--divider);
+  padding-bottom: 16px;
+}
+
+.admin-header h2 {
+  font-size: 24px;
+  font-weight: 500;
+  color: var(--primary-dark);
+  margin: 0;
+}
+
+.reservation-id {
+  background-color: var(--primary);
+  color: white;
+  padding: 6px 12px;
+  border-radius: 4px;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+/* Contenu principal */
+.admin-content {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.info-panel {
+  background-color: var(--card-bg);
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  display: grid;
+  grid-template-columns: 1fr;
+}
+
+@media (min-width: 768px) {
+  .info-panel {
+    grid-template-columns: 1.5fr 1fr;
+  }
+}
+
+.info-section {
+  padding: 24px;
+  border-bottom: 1px solid var(--divider);
+}
+
+.info-section h3 {
+  font-size: 18px;
+  font-weight: 500;
+  color: var(--primary);
+  margin-top: 0;
+  margin-bottom: 16px;
+}
+
+.info-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 16px;
+}
+
+.info-item {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 12px;
+}
+
+.label {
+  font-size: 12px;
+  color: var(--text-secondary);
+  margin-bottom: 4px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.value {
+  font-size: 16px;
+  font-weight: 500;
+}
+
+/* Badges pour les statuts */
+.status-badge {
+  display: inline-block;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.status-confirmed {
+  background-color: rgba(76, 175, 80, 0.2);
+  color: var(--success);
+}
+
+.status-cancelled {
+  background-color: rgba(244, 67, 54, 0.2);
+  color: var(--danger);
+}
+
+/* Section QR Code */
+.qrcode-section {
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.qrcode-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.qrcode-container img {
+  max-width: 180px;
+  height: auto;
+  border: 1px solid var(--divider);
+  padding: 8px;
+  background-color: white;
+  margin-bottom: 12px;
+}
+
+.qrcode-info {
+  font-size: 14px;
+  color: var(--text-secondary);
+  text-align: center;
+  max-width: 250px;
+}
+
+/* Pied de page admin */
+.admin-footer {
+  margin-top: 24px;
+  display: flex;
+  justify-content: flex-start;
+}
+
+/* Style des boutons */
+button {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: 500;
+  font-size: 14px;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.btn-back {
+  background-color: transparent;
+  color: var(--primary);
+  border: 1px solid var(--primary);
+}
+
+.btn-back:hover {
+  background-color: rgba(63, 81, 181, 0.1);
+}
+
+/* Style pour le conteneur de chargement */
+.loading-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 200px;
+  color: var(--text-secondary);
+}

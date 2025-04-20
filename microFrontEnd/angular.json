@@ -64,7 +64,8 @@
               "browserTarget": "microFrontEnd:build:production"
             },
             "development": {
-              "browserTarget": "microFrontEnd:build:development"
+              "browserTarget": "microFrontEnd:build:development",
+              "proxyConfig": "proxy.conf.json"
             }
           },
           "defaultConfiguration": "development"

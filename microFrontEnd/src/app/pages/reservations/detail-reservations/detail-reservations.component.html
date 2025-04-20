@@ -1,0 +1,53 @@
+<div class="admin-container" *ngIf="reservation">
+  <div class="admin-header">
+    <h2>Détails de la Réservation</h2>
+    <span class="reservation-id">#{{ reservation.id }}</span>
+  </div>
+  
+  <div class="admin-content">
+    <div class="info-panel">
+      <div class="info-section">
+        <h3>Informations Générales</h3>
+        <div class="info-grid">
+          <div class="info-item">
+            <span class="label">Date de début</span>
+            <span class="value">{{ reservation.datedebut | date: 'dd/MM/yyyy' }}</span>
+          </div>
+          <div class="info-item">
+            <span class="label">Date de fin</span>
+            <span class="value">{{ reservation.datefin | date: 'dd/MM/yyyy' }}</span>
+          </div>
+          <div class="info-item">
+            <span class="label">ID Chambre</span>
+            <span class="value">{{ reservation.idchambre }}</span>
+          </div>
+          <div class="info-item">
+            <span class="label">Statut</span>
+            <span class="value status-badge" [ngClass]="reservation.statut ? 'status-confirmed' : 'status-cancelled'">
+              {{ reservation.statut ? 'Confirmée' : 'Annulée' }}
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <div class="qrcode-section" *ngIf="qrCodeUrl">
+        <h3>QR Code d'accès</h3>
+        <div class="qrcode-container">
+          <img [src]="qrCodeUrl" alt="QR Code d'accès" />
+          <p class="qrcode-info">Présentez ce QR code à la réception pour valider votre réservation</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="admin-footer">
+    <button class="btn-back" (click)="goBack()">
+      <i class="bi bi-arrow-left"></i> Retour
+    </button>
+  </div>
+</div>
+
+<!-- Message de chargement ou d'absence de données -->
+<div class="loading-container" *ngIf="!reservation">
+  <p>Chargement des informations...</p>
+</div>
