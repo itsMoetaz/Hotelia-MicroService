@@ -12,5 +12,6 @@ export enum TypeChambre {
     prixParNuit: number;
     disponibilite: boolean;
     imageUrl: string;
+    description: string;
     historiques: any[];  
   }
