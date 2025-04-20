@@ -1,0 +1,152 @@
+.login-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding: 2rem;
+  background-color: #f5f5f5;
+}
+
+.card {
+  width: 100%;
+  max-width: 450px;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}
+
+.card-header {
+  background-color: #4a90e2;
+  padding: 1.5rem;
+  text-align: center;
+}
+
+.card-header h2 {
+  margin: 0;
+  color: white;
+  font-weight: 500;
+  font-size: 1.8rem;
+}
+
+.card-body {
+  padding: 2rem;
+}
+
+.form-group {
+  margin-bottom: 1.5rem;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+  color: #333;
+}
+
+.form-control {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 16px;
+  transition: border-color 0.3s;
+}
+
+.form-control:focus {
+  outline: none;
+  border-color: #4a90e2;
+  box-shadow: 0 0 0 2px rgba(74, 144, 226, 0.2);
+}
+
+.form-control.is-invalid {
+  border-color: #dc3545;
+}
+
+.invalid-feedback {
+  color: #dc3545;
+  font-size: 14px;
+  margin-top: 5px;
+}
+
+.alert {
+  padding: 1rem;
+  margin-bottom: 1rem;
+  border-radius: 4px;
+}
+
+.alert-danger {
+  background-color: #f8d7da;
+  border: 1px solid #f5c6cb;
+  color: #721c24;
+}
+
+.btn-submit {
+  display: block;
+  width: 100%;
+  background-color: #4a90e2;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 12px;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.btn-submit:hover:not(:disabled) {
+  background-color: #3a80d2;
+}
+
+.btn-submit:disabled {
+  background-color: #7bacea;
+  cursor: not-allowed;
+}
+
+.spinner {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  border-top-color: white;
+  animation: spin 1s ease-in-out infinite;
+  margin-right: 8px;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.form-links {
+  margin-top: 1.5rem;
+  text-align: center;
+}
+
+.form-links a {
+  color: #4a90e2;
+  text-decoration: none;
+  font-size: 14px;
+}
+
+.form-links a:hover {
+  text-decoration: underline;
+}
+
+.divider {
+  margin: 0 8px;
+  color: #ccc;
+}
+
+@media (max-width: 768px) {
+  .card {
+    max-width: 100%;
+  }
+  
+  .card-body {
+    padding: 1.5rem;
+  }
+}

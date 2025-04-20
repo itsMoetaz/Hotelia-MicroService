@@ -1,0 +1,99 @@
+<div class="register-container">
+  <div class="auth-card">
+    <h2 class="text-2xl font-bold text-center mb-6">Créer un compte</h2>
+    
+    <div *ngIf="successMessage" class="alert alert-success mb-4">
+      {{ successMessage }}
+    </div>
+    
+    <div *ngIf="errorMessage" class="alert alert-danger mb-4">
+      {{ errorMessage }}
+    </div>
+    
+    <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" class="space-y-4">
+      <!-- Name -->
+      <div class="form-group">
+        <label for="name">Nom complet</label>
+        <input 
+          type="text" 
+          formControlName="name" 
+          class="form-control" 
+          [ngClass]="{ 'is-invalid': submitted && f['name'].errors }"
+          placeholder="Entrez votre nom complet" />
+        <div *ngIf="submitted && f['name'].errors" class="invalid-feedback">
+          <div *ngIf="f['name'].errors['required']">Le nom est obligatoire</div>
+        </div>
+      </div>
+      
+      <!-- Email -->
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input 
+          type="email" 
+          formControlName="email" 
+          class="form-control" 
+          [ngClass]="{ 'is-invalid': submitted && f['email'].errors }"
+          placeholder="Entrez votre email" />
+        <div *ngIf="submitted && f['email'].errors" class="invalid-feedback">
+          <div *ngIf="f['email'].errors['required']">L'email est obligatoire</div>
+          <div *ngIf="f['email'].errors['email']">Veuillez entrer une adresse email valide</div>
+        </div>
+      </div>
+      
+      <!-- Phone Number -->
+      <div class="form-group">
+        <label for="phone_number">Numéro de téléphone</label>
+        <input 
+          type="tel" 
+          formControlName="phone_number" 
+          class="form-control" 
+          placeholder="Entrez votre numéro de téléphone (optionnel)" />
+      </div>
+      
+      <!-- Password -->
+      <div class="form-group">
+        <label for="password">Mot de passe</label>
+        <input 
+          type="password" 
+          formControlName="password" 
+          class="form-control" 
+          [ngClass]="{ 'is-invalid': submitted && f['password'].errors }"
+          placeholder="Entrez votre mot de passe" />
+        <div *ngIf="submitted && f['password'].errors" class="invalid-feedback">
+          <div *ngIf="f['password'].errors['required']">Le mot de passe est obligatoire</div>
+          <div *ngIf="f['password'].errors['minlength']">Le mot de passe doit contenir au moins 6 caractères</div>
+        </div>
+      </div>
+      
+      <!-- Confirm Password -->
+      <div class="form-group">
+        <label for="confirmPassword">Confirmer le mot de passe</label>
+        <input 
+          type="password" 
+          formControlName="confirmPassword" 
+          class="form-control" 
+          [ngClass]="{ 'is-invalid': submitted && f['confirmPassword'].errors }"
+          placeholder="Confirmez votre mot de passe" />
+        <div *ngIf="submitted && f['confirmPassword'].errors" class="invalid-feedback">
+          <div *ngIf="f['confirmPassword'].errors['required']">La confirmation du mot de passe est obligatoire</div>
+          <div *ngIf="f['confirmPassword'].errors['passwordMismatch']">Les mots de passe ne correspondent pas</div>
+        </div>
+      </div>
+      
+      <!-- Submit Button -->
+      <div class="form-group">
+        <button 
+          [disabled]="loading" 
+          class="btn btn-primary w-full">
+          <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
+          S'inscrire
+        </button>
+      </div>
+      
+      <!-- Login Link -->
+      <div class="text-center mt-4">
+        <p>Vous avez déjà un compte ? <a routerLink="/login" class="text-blue-600">Se connecter</a></p>
+      </div>
+    </form>
+  </div>
+</div>
