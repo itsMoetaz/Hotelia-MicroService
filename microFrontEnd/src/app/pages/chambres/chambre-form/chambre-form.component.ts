@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Chambre } from '../../models/Chambre.model';
-import { ChambreService } from '../../services/chambre.service';
+import { ChambreService } from '../../../services/chambre.service';
 
 @Component({
   selector: 'app-chambre-form',

@@ -1,10 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { Chambre } from '../models/Chambre.model';
-import { HistoriqueOccupation } from '../models/HistoriqueOccupation';
-import { ChambreService } from '../services/chambre.service';
+import { Chambre } from '../../../models/Chambre.model';
+import { HistoriqueOccupation } from '../../../models/HistoriqueOccupation';
+import { ChambreService } from '../../../services/chambre.service';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { Router } from '@angular/router';
-import { HistoriqueFormComponent } from '../pages/historique-form/historique-form.component';
 import { MatDialog } from '@angular/material/dialog';
 
 @Component({
