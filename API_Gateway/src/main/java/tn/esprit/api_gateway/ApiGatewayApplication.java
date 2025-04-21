@@ -28,6 +28,7 @@ public class ApiGatewayApplication {
                         .uri("http://localhost:8085"))
                 .route("GestionReservation",r->r.path("/reservations/**").uri("lb://GestionReservation"))
                 .route("Gestionuser",r->r.path("/api/**").uri("lb://Gestionuser"))
+                .route("Employee",r -> r.path("/employees/**").uri("lb://EmployeeMS"))
 
                 .build();
     }

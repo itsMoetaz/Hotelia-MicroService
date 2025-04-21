@@ -246,7 +246,9 @@
                 </div>
               </div>
               <div>
-                <div class="font-bold">{{ getFullName(employee) }}</div>
+                <div class="font-bold cursor-pointer hover:text-primary" (click)="editEmployee(employee)">
+                  {{ getFullName(employee) }}
+                </div> 
                 <div class="text-sm opacity-50">ID: {{ employee?.id || 'N/A' }}</div>
               </div>
             </div>
@@ -267,7 +269,7 @@
           <td>
             <div class="flex items-center">
               <div class="rating rating-sm">
-                <ng-container *ngFor="let star of calculateStars(employee.performanceRating); let i = index">
+                <ng-container *ngFor="let star of calculateStars(employee.performanceRating || 0); let i = index">
                   <input type="radio" [name]="'rating-' + employee.id + '-' + i" 
                         class="mask mask-star-2 bg-orange-400" 
                         [checked]="star === 1" 
@@ -284,12 +286,7 @@
                   <path stroke-linecap="round" stroke-linejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21h-9.5A2.25 2.25 0 014 18.75V5.25A2.25 2.25 0 016.25 3h9.5A2.25 2.25 0 0118 5.25V14z" />
                 </svg>
               </button>
-              <button class="btn btn-square btn-sm btn-ghost" (click)="viewEmployee(employee.id)">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z" />
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                </svg>
-              </button>
+
               <div class="dropdown dropdown-end">
                 <label tabindex="0" class="btn btn-square btn-sm btn-ghost">
                   <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
@@ -297,11 +294,9 @@
                   </svg>
                 </label>
                 <ul tabindex="0" class="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52">
-                  <!-- <li><a (click)="assignTask(employee.id)">Assign Task</a></li>
-                  <li><a (click)="setSchedule(employee.id)">Set Schedule</a></li>
-                  <li><a (click)="performanceReview(employee)">Performance Review</a></li> -->
+                  <li><a (click)="editEmployee(employee)">Edit Employee</a></li>
                   <li><a>File Management</a></li>
-                  <li><a class="text-error" (click)="deleteEmployee(employee.id)">Terminate</a></li>
+                  <li><a class="text-error" (click)="deleteEmployee(employee.id ?? '')">Terminate</a></li>
                 </ul>
               </div>
             </div>
@@ -599,5 +594,96 @@
       </ul>
     </div>
   </div>
-
+  <dialog id="add_employee_modal" class="modal">
+    <div class="modal-box">
+      <h3 class="font-bold text-lg mb-4">
+        {{ editMode ? 'Edit Employee' : 'Add New Employee' }}
+      </h3>    
+      <form [formGroup]="employeeForm" (ngSubmit)="submitEmployee()">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <!-- First Name -->
+          <div class="form-control">
+            <label class="label">
+              <span class="label-text">First Name</span>
+            </label>
+            <input type="text" formControlName="firstName" class="input input-bordered w-full" />
+            <div *ngIf="submitted && f['firstName'].errors" class="text-error text-sm mt-1">
+              <span *ngIf="f['firstName'].errors['required']">First name is required</span>
+            </div>
+          </div>
+          
+          <!-- Last Name -->
+          <div class="form-control">
+            <label class="label">
+              <span class="label-text">Last Name</span>
+            </label>
+            <input type="text" formControlName="lastName" class="input input-bordered w-full" />
+            <div *ngIf="submitted && f['lastName'].errors" class="text-error text-sm mt-1">
+              <span *ngIf="f['lastName'].errors['required']">Last name is required</span>
+            </div>
+          </div>
+          
+          <!-- Email -->
+          <div class="form-control">
+            <label class="label">
+              <span class="label-text">Email</span>
+            </label>
+            <input type="email" formControlName="email" class="input input-bordered w-full" />
+            <div *ngIf="submitted && f['email'].errors" class="text-error text-sm mt-1">
+              <span *ngIf="f['email'].errors['required']">Email is required</span>
+              <span *ngIf="f['email'].errors['email']">Please enter a valid email</span>
+            </div>
+          </div>
+          
+          <!-- Phone -->
+          <div class="form-control">
+            <label class="label">
+              <span class="label-text">Phone</span>
+            </label>
+            <input type="tel" formControlName="phoneNumber" class="input input-bordered w-full" />
+          </div>
+          
+          <!-- Position -->
+          <div class="form-control">
+            <label class="label">
+              <span class="label-text">Position</span>
+            </label>
+            <select formControlName="position" class="select select-bordered w-full">
+              <option value="" disabled>Select position</option>
+              <option value="CONCIERGE">CONCIERGE</option>
+              <option value="HOUSEKEEPING_SUPERVISOR">Housekeeping</option>
+              <option value="MANAGER">Manager</option>
+              <option value="MAINTENANCE">Maintenance</option>
+              <option value="RECEPTIONIST">RECEPTIONIST</option>
+            </select>
+            <div *ngIf="submitted && f['position'].errors" class="text-error text-sm mt-1">
+              <span *ngIf="f['position'].errors['required']">Position is required</span>
+            </div>
+          </div>
+          
+          <!-- Performance Rating -->
+          <div class="form-control col-span-1 md:col-span-2">
+            <label class="label">
+              <span class="label-text">Initial Performance Rating (1-10)</span>
+            </label>
+            <input type="number" formControlName="performanceRating" min="1" max="10" class="input input-bordered w-full" />
+            <div *ngIf="submitted && f['performanceRating'].errors" class="text-error text-sm mt-1">
+              <span *ngIf="f['performanceRating'].errors['min'] || f['performanceRating'].errors['max']">Rating must be between 1 and 10</span>
+            </div>
+          </div>
+        </div>
+        
+        <div class="modal-action mt-6">
+          <button type="button" class="btn" (click)="closeAddEmployeeModal()">Cancel</button>
+          <button type="submit" class="btn btn-primary" [disabled]="loading">
+            <span *ngIf="loading" class="loading loading-spinner loading-xs mr-2"></span>
+            {{ editMode ? 'Update Employee' : 'Save Employee' }}
+          </button>
+        </div>
+      </form>
+    </div>
+    <form method="dialog" class="modal-backdrop">
+      <button>close</button>
+    </form>
+  </dialog>
 </div>
