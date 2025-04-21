@@ -14,7 +14,7 @@ export class PaymentComponent {
 
   async pay() {
     const stripe = await this.stripePromise;
-    this.http.post<any>('http://localhost:8082/api/payment/create-checkout-session', {
+    this.http.post<any>('http://localhost:8086/api/payment/create-checkout-session', {
       name: 'Réservation Chambre',
       amount: 2000 // 20.00 EUR
     }).subscribe(async (session) => {

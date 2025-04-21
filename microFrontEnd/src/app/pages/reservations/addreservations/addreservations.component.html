@@ -1,32 +1,53 @@
-<div class="card">
-  <div class="card-body">
-    <h2>Ajouter une réservation</h2>
-
-    <form (ngSubmit)="saveReservation()">
-      <div class="form-group">
-        <label>Date Début :</label>
-        <input type="date" [(ngModel)]="reservation.datedebut" name="datedebut" required />
+<!-- Main Content -->
+<main class="container mx-auto px-4 py-12 flex flex-col md:flex-row gap-8">
+  <!-- Add Reservation Form -->
+  <div class="w-full md:w-3/4">
+    <!-- Reservation Card -->
+    <div class="bg-white rounded-lg shadow-lg overflow-hidden transform hover:scale-105 transition duration-300">
+      <!-- Form Header -->
+      <div class="p-6 border-b">
+        <h2 class="text-2xl font-bold text-gray-800">Ajouter une Réservation</h2>
       </div>
 
-      <div class="form-group">
-        <label>Date Fin :</label>
-        <input type="date" [(ngModel)]="reservation.datefin" name="datefin" required />
-      </div>
+      <!-- Form Body -->
+      <form (ngSubmit)="saveReservation()" class="p-6">
+        <!-- Chambre Info -->
+        <div class="mb-6" *ngIf="selectedChambre">
+          <h3 class="text-lg font-semibold text-gray-700 mb-2">Chambre Sélectionnée</h3>
+          <p><strong>Numéro :</strong> {{ selectedChambre.numero }}</p>
+          <p><strong>Type :</strong> {{ selectedChambre.type }}</p>
+          <p><strong>Prix par nuit :</strong> {{ selectedChambre.prixParNuit }} €</p>
+        </div>
 
-      <div class="form-group">
-        <label>ID Chambre :</label>
-        <input type="number" [(ngModel)]="reservation.idchambre" name="idchambre" required />
-      </div>
+        <!-- Date Start -->
+        <div class="mb-6">
+          <label for="datedebut" class="block text-sm font-medium text-gray-700 mb-2">Date Début</label>
+          <input type="date" [(ngModel)]="reservation.datedebut" name="datedebut" id="datedebut" required class="w-full p-2 border rounded-lg focus:ring-2 focus:ring-blue-500">
+        </div>
 
-      <div class="form-group">
-        <label>Statut :</label>
-        <select [(ngModel)]="reservation.statut" name="statut">
-          <option [value]="true">Confirmée</option>
-          <option [value]="false">Annulée</option>
-        </select>
-      </div>
+        <!-- Date End -->
+        <div class="mb-6">
+          <label for="datefin" class="block text-sm font-medium text-gray-700 mb-2">Date Fin</label>
+          <input type="date" [(ngModel)]="reservation.datefin" name="datefin" id="datefin" required class="w-full p-2 border rounded-lg focus:ring-2 focus:ring-blue-500">
+        </div>
 
-      <button type="submit" class="btn-submit">Ajouter</button>
-    </form>
+        <!-- Hidden Room ID -->
+        <input type="hidden" [(ngModel)]="reservation.idchambre" name="idchambre" />
+
+        <!-- Status -->
+        <div class="mb-6">
+          <label for="statut" class="block text-sm font-medium text-gray-700 mb-2">Statut</label>
+          <select [(ngModel)]="reservation.statut" name="statut" id="statut" class="w-full p-2 border rounded-lg focus:ring-2 focus:ring-blue-500">
+            <option [value]="true">Confirmée</option>
+            <option [value]="false">Annulée</option>
+          </select>
+        </div>
+
+        <!-- Submit Button -->
+        <button type="submit" class="w-full bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition duration-300">
+          Ajouter
+        </button>
+      </form>
+    </div>
   </div>
-</div>
+</main>

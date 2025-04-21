@@ -12,7 +12,7 @@ export class PaymentService {
 
   async pay(name: string, amount: number) {
     const stripe = await this.stripePromise;
-    const session = await this.http.post<any>('http://localhost:8082/api/payment/create-checkout-session', {
+    const session = await this.http.post<any>('http://localhost:8086/api/payment/create-checkout-session', {
       name,
       amount
     }).toPromise();

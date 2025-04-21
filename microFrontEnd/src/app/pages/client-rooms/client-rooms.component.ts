@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ChambreService } from '../../services/chambre.service';
 import { Chambre } from '../../models/Chambre.model';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-client-rooms',
@@ -17,7 +18,8 @@ export class ClientRoomsComponent implements OnInit {
   minPrice: number | null = null; // Define minPrice
   maxPrice: number | null = null; // Define maxPrice
 
-  constructor(private chambreService: ChambreService) {}
+  constructor(private chambreService: ChambreService,    private router: Router
+  ) {}
 
   ngOnInit(): void {
     this.loadChambres();
@@ -69,9 +71,7 @@ export class ClientRoomsComponent implements OnInit {
     });
   }
 
-  bookRoom(chambreId: number): void { // Define bookRoom
-    // Placeholder for booking functionality
-    alert(`Booking room with ID ${chambreId}. (Functionality to be implemented)`);
-    // You can navigate to a booking form or call a service to handle the booking
+  bookRoom(chambreId: number): void {
+    this.router.navigate(['/addreservation'], { queryParams: { idchambre: chambreId } });
   }
 }
