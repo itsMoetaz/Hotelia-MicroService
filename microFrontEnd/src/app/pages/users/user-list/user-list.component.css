@@ -1,0 +1,48 @@
+.card {
+  transition: all 0.3s ease;
+  border-top: 4px solid #3E9DCD;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+}
+
+.avatar img {
+  border: 2px solid #3E9DCD;
+}
+
+.badge-primary {
+  background-color: #3E9DCD;
+  color: white;
+}
+
+.text-primary {
+  color: #3E9DCD;
+}
+
+.btn-primary {
+  background-color: #3E9DCD;
+  border-color: #3E9DCD;
+}
+
+.btn-primary:hover {
+  background-color: #2d8bb9;
+  border-color: #2d8bb9;
+}
+
+/* Animation pour les cartes */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.card {
+  animation: fadeIn 0.5s ease-in-out forwards;
+}
+
+.grid > div:nth-child(1) { animation-delay: 0.1s; }
+.grid > div:nth-child(2) { animation-delay: 0.2s; }
+.grid > div:nth-child(3) { animation-delay: 0.3s; }
+.grid > div:nth-child(4) { animation-delay: 0.4s; }
+.grid > div:nth-child(5) { animation-delay: 0.5s; }
+.grid > div:nth-child(6) { animation-delay: 0.6s; }

@@ -1,0 +1,90 @@
+.navbar {
+  padding: 0.5rem 1rem;
+  transition: all 0.3s ease;
+}
+
+.navbar-start .btn-ghost span {
+  background: linear-gradient(135deg, #4a90e2, #63b3ed);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  transition: transform 0.3s ease;
+}
+
+.navbar-start .btn-ghost:hover span {
+  transform: scale(1.05);
+}
+
+/* Styliser le menu déroulant */
+.dropdown-content {
+  border-radius: 8px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+}
+
+/* Animer les liens de navigation */
+.navbar ul li a {
+  position: relative;
+  transition: color 0.3s;
+}
+
+.navbar ul li a::after {
+  content: '';
+  position: absolute;
+  width: 0;
+  height: 2px;
+  bottom: -2px;
+  left: 0;
+  background-color: hsl(var(--p));
+  transition: width 0.3s;
+}
+
+.navbar ul li a:hover::after {
+  width: 100%;
+}
+
+/* Style pour l'avatar */
+.avatar .rounded-full {
+  border: 2px solid transparent;
+  transition: all 0.3s ease;
+}
+
+.avatar:hover .rounded-full {
+  border-color: hsl(var(--p));
+  transform: scale(1.05);
+}
+
+/* Animation du bouton de toggle de thème */
+.swap-rotate {
+  transition: transform 0.5s ease;
+}
+
+.swap-rotate:hover {
+  transform: rotate(45deg);
+}
+
+/* Style pour la barre de recherche */
+.form-control input {
+  transition: all 0.3s ease;
+}
+
+.form-control input:focus {
+  width: 250px;
+  box-shadow: 0 0 0 2px hsla(var(--p), 0.3);
+}
+
+/* Boutons de connexion/inscription */
+.btn-primary {
+  transition: all 0.3s ease;
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* Version responsive */
+@media (max-width: 768px) {
+  .navbar {
+    padding: 0.25rem 0.5rem;
+  }
+}

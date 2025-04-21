@@ -28,6 +28,9 @@ import { AddreservationsComponent } from './pages/reservations/addreservations/a
 import { PaymentComponent } from './pages/reservations/payment/payment.component';
 import { FilterByAvailabilityPipe } from './pages/home/filter-by-availability.pipe';
 import { ClientRoomsComponent } from './pages/client-rooms/client-rooms.component';
+import { ProfileComponent } from './pages/auth/profile/profile.component';
+import { UserListComponent } from './pages/users/user-list/user-list.component';
+import { UserFormComponent } from './pages/users/user-form/user-form.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -45,7 +48,10 @@ import { ClientRoomsComponent } from './pages/client-rooms/client-rooms.componen
     AddreservationsComponent,
     PaymentComponent,
     FilterByAvailabilityPipe,
-    ClientRoomsComponent
+    ClientRoomsComponent,
+    ProfileComponent,
+    UserListComponent,
+    UserFormComponent
   ],
   imports: [
     BrowserModule,

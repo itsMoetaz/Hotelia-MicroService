@@ -11,6 +11,9 @@ import { AddreservationsComponent } from "./pages/reservations/addreservations/a
 import { LoginComponent } from "./pages/auth/login/login.component";
 import { RegisterComponent } from "./pages/auth/register/register.component";
 import { ClientRoomsComponent } from './pages/client-rooms/client-rooms.component';
+import { ProfileComponent } from './pages/auth/profile/profile.component';
+import { UserListComponent } from './pages/users/user-list/user-list.component';
+import { UserFormComponent } from './pages/users/user-form/user-form.component';
 
 
 const routes: Routes = [
@@ -28,7 +31,10 @@ const routes: Routes = [
   { path: 'dashboard/listreservation', component: ListreservationsComponent },
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
-
+  { path: 'profile', component: ProfileComponent },
+  { path: 'dashboard/listuser', component: UserListComponent },
+  { path: 'dashboard/user-form/:id', component: UserFormComponent },  // Mise à jour d'utilisateur
+  { path: 'dashboard/user-form', component: UserFormComponent },      // Ajout d'utilisateur
   { path: 'addreservation', component: AddreservationsComponent }
 ];
 

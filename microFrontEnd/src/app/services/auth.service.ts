@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { BehaviorSubject, Observable, tap } from 'rxjs';
+import { BehaviorSubject, Observable, tap, catchError, throwError } from 'rxjs';
 import { User } from '../models/User.model';
 import { Router } from '@angular/router';
 
@@ -25,7 +25,13 @@ export class AuthService {
   }
 
   register(userData: any): Observable<any> {
-    return this.http.post(`${this.API_URL}/register`, userData);
+    return this.http.post(`${this.API_URL}/register`, userData)
+      .pipe(
+        catchError(error => {
+          console.error('Erreur dans le service d\'authentification:', error);
+          return throwError(() => error);
+        })
+      );
   }
 
   login(email: string, password: string): Observable<any> {
@@ -51,7 +57,7 @@ export class AuthService {
         })
       );
   }
-
+  
   forgotPassword(email: string): Observable<any> {
     return this.http.post(`${this.API_URL}/forgotPassword`, { email });
   }

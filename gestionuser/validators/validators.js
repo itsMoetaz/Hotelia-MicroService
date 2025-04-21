@@ -1,4 +1,3 @@
-// validators/validators.js
 const Joi = require('joi');
 
 // Define the Joi schema for user validation
@@ -61,8 +60,12 @@ const userSchema = Joi.object({
     phone_number: Joi.string()
         .allow('') // Allow empty string
         .optional(),
-
-    bio: Joi.string()
-        .allow('') // Allow empty string
-        .optional(),
 });
+
+// Fonction pour valider les données avec le schéma Joi
+const validateUser = (data) => {
+    return userSchema.validate(data);
+};
+
+// Exportation de la fonction pour qu'elle puisse être utilisée ailleurs
+module.exports = { validateUser };

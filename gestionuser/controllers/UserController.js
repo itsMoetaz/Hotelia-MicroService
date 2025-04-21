@@ -14,7 +14,6 @@ const getMe = async (req, res) => {
     try {
         // Make sure to populate workspaces field
         const user = await User.findById(req.user._id)
-            .populate('workspaces')
             .select('-password')
             .exec();
 
@@ -39,14 +38,7 @@ const getUserById = async (req, res) => {
     try {
         const { id } = req.params;
         const user = await User.findById(id)
-            .populate({
-                path: 'workspaces',
-                select: 'name',  // Only get workspace name
-                match: {         // Only get active workspaces
-                    isDeleted: { $ne: true },
-                    isArchived: { $ne: true }
-                }
-            });
+
 
         if (!user) {
             return res.status(404).json({ error: "User not found" });
@@ -57,22 +49,38 @@ const getUserById = async (req, res) => {
         res.status(500).json({ error: "Failed to retrieve user", details: err.message });
     }
 };
-
 const addUser = async (req, res) => {
     try {
+        // Log the incoming request data to see what we're getting
+        console.log('Request Body:', req.body);
+
         const { error, value } = validateUser(req.body);
+
+        // Log the result of validation
         if (error) {
+            console.log('Validation Errors:', error.details);
             return res.status(400).json({ errors: error.details.map(err => err.message) });
         }
 
-        const { name, email, password, authentication_method, role, phone_number, bio } = value;
+        // Log the validated user data
+        console.log('Validated User Data:', value);
 
+        const { name, email, password, authentication_method, role, phone_number } = value;
+
+        // Check if the email already exists in the database
         const existingUser = await User.findOne({ email });
         if (existingUser) {
+            console.log('Email already in use:', email);
             return res.status(400).json({ error: 'Email already in use.' });
         }
 
+        // Log before hashing the password
+        console.log('Hashing password for user:', email);
+
         const hashedPassword = await bcrypt.hash(password, 10);
+
+        // Log the hashed password (avoid logging actual password in production)
+        console.log('Password hashed successfully.');
 
         const newUser = new User({
             name,
@@ -81,15 +89,24 @@ const addUser = async (req, res) => {
             authentication_method: authentication_method || 'local',
             role: role || 'user',
             phone_number: phone_number || '',
-            bio: bio ? bio.trim() : '',
         });
 
+        // Log the new user object before saving
+        console.log('New User Object:', newUser);
+
         await newUser.save();
+
+        // Log the successful user creation
+        console.log('User created successfully:', newUser);
+
         res.status(201).json({ message: 'User created successfully', user: newUser });
     } catch (error) {
+        // Log any error that occurs during the process
+        console.error('Error occurred during user creation:', error);
         res.status(500).json({ error: error.message });
     }
 };
+
 
 const updateUser = async (req, res) => {
     try {
@@ -100,7 +117,7 @@ const updateUser = async (req, res) => {
         if (error) {
             return res.status(400).json({ errors: error.details.map(err => err.message) });
         }
-        const { name, email, password, authentication_method, role, phone_number, bio } = req.body;
+        const { name, email, password, authentication_method, role, phone_number } = req.body;
 
         const user = await User.findById(id);
         if (!user) {
@@ -116,7 +133,6 @@ const updateUser = async (req, res) => {
         user.authentication_method = authentication_method || user.authentication_method;
         user.role = role || user.role;
         user.phone_number = phone_number || user.phone_number;
-        user.bio = bio ? bio.trim() : user.bio;
 
         await user.save();
         res.status(200).json({ message: 'User updated successfully', user });

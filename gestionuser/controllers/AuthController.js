@@ -53,23 +53,36 @@ exports.login = async (req, res) => {
 
 exports.register = async (req, res) => {
     try {
+        console.log('Début de la fonction d\'enregistrement');
+        console.log(req.body);
         const { error, value } = validateUser(req.body);
         if (error) {
+            console.log('Erreur de validation:', error.details.map(err => err.message));
+
             return res.status(400).json({ errors: error.details.map(err => err.message) });
         }
 
-        const { name, email, password, authentication_method, role, phone_number, bio } = value;
+        console.log('Validation réussie:', value);
+
+        const { name, email, password, authentication_method, role, phone_number } = value;
 
         const existingUser = await User.findOne({ email });
         if (existingUser) {
+            console.log(`L'email ${email} est déjà utilisé`);
             return res.status(400).json({ error: 'Email déjà utilisé.' });
         }
 
-        const hashedPassword = await bcrypt.hash(password, 10);
+        console.log('Aucun utilisateur trouvé avec cet email.');
 
-        // Generate verification token (6-digit code)
+        const hashedPassword = await bcrypt.hash(password, 10);
+        console.log('Mot de passe haché avec succès');
+
+        // Générer un token de vérification (code à 6 chiffres)
         const verificationToken = Math.floor(100000 + Math.random() * 900000).toString();
+        console.log('Token de vérification généré:', verificationToken);
+
         const hashedVerificationToken = crypto.createHash('sha256').update(verificationToken).digest('hex');
+        console.log('Token de vérification haché:', hashedVerificationToken);
 
         const newUser = new User({
             name,
@@ -78,15 +91,17 @@ exports.register = async (req, res) => {
             authentication_method: authentication_method || 'local',
             role: role || 'user',
             phone_number: phone_number || '',
-            bio: bio ? bio.trim() : '',
             emailVerificationToken: hashedVerificationToken,
-            emailVerificationExpires: Date.now() + 24 * 60 * 60 * 1000, // 24 hours
+            emailVerificationExpires: Date.now() + 24 * 60 * 60 * 1000, // 24 heures
             isVerified: false
         });
 
-        await newUser.save();
+        console.log('Nouvel utilisateur créé:', newUser);
 
-        // Send verification email
+        await newUser.save();
+        console.log('Utilisateur enregistré avec succès dans la base de données');
+
+        // Envoyer un email de vérification
         await sendEmail({
             email: newUser.email,
             name: newUser.name,
@@ -94,6 +109,7 @@ exports.register = async (req, res) => {
             verificationToken: verificationToken,
             type: 'verification'
         });
+        console.log('Email de vérification envoyé à', newUser.email);
 
         res.status(201).json({
             message: 'Utilisateur créé avec succès. Veuillez vérifier votre adresse email pour activer votre compte.',
@@ -101,6 +117,7 @@ exports.register = async (req, res) => {
         });
 
     } catch (error) {
+        console.log('Erreur lors de l\'enregistrement:', error.message);
         res.status(500).json({ error: error.message });
     }
 };
