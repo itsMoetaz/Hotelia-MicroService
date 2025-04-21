@@ -5,12 +5,28 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="eb7eebbf-8921-4cdd-80ac-aca14a3a975b" name="Changes" comment="gestionuser + apigateway">
-      <change beforePath="$PROJECT_DIR$/microFrontEnd/src/app/services/evenement.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/microFrontEnd/src/app/services/evenement.service.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/EmployeeMS/Dockerfile" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Evenement/Dockerfile" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ServicesMS/Dockerfile" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/EmployeeMS/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/EmployeeMS/src/main/resources/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Evenement/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/Evenement/src/main/resources/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ServicesMS/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/ServicesMS/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ServicesMS/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/ServicesMS/src/main/resources/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gestionReservation/Database/Data/gestionReservation.mv.db" beforeDir="false" afterPath="$PROJECT_DIR$/gestionReservation/Database/Data/gestionReservation.mv.db" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gestionReservation/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/gestionReservation/Dockerfile" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Dockerfile" />
+      </list>
+    </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
@@ -31,25 +47,25 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Node.js.db.js.executor": "Run",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "git-widget-placeholder": "test",
-    "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "C:/Eya/Esprit/4eme/S2/Micro-Service/MS_Hotel/Hotelia-MicroService/EmployeeMS",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "ts.external.directory.path": "D:\\fac\\4a\\microservice\\projectmsfinaaal\\Hotelia-MicroService\\microFrontEnd\\node_modules\\typescript\\lib",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Node.js.db.js.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;test&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Eya/Esprit/4eme/S2/Micro-Service/MS_Hotel/Hotelia-MicroService/EmployeeMS&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;ts.external.directory.path&quot;: &quot;D:\\fac\\4a\\microservice\\projectmsfinaaal\\Hotelia-MicroService\\microFrontEnd\\node_modules\\typescript\\lib&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
@@ -71,6 +87,7 @@
       <workItem from="1745197202344" duration="884000" />
       <workItem from="1745202347819" duration="47000" />
       <workItem from="1745202456081" duration="3090000" />
+      <workItem from="1745256205959" duration="4828000" />
     </task>
     <task id="LOCAL-00001" summary="correctiongesitonuser">
       <option name="closed" value="true" />
