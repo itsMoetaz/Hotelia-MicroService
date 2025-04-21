@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { Observable, of } from 'rxjs';
+import { Observable, of, throwError } from 'rxjs';
 import { catchError, map, retry, tap } from 'rxjs/operators';
 import { Employee } from '../models/Employee.model';
 
@@ -21,7 +21,15 @@ export class EmployeeService {
         retry(1),
         map(response => {
           console.log('API Response:', response);
-          
+          if (response && response._embedded && response._embedded.employees) {
+            return {
+              content: response._embedded.employees,
+              totalElements: response.page.totalElements || response._embedded.employees.length,
+              totalPages: response.page.totalPages || 1,
+              number: response.page.number || 0,
+              size: response.page.size || response._embedded.employees.length
+            };
+          }
           // Handle array response format (direct array of employees)
           if (Array.isArray(response)) {
             return {
@@ -63,12 +71,21 @@ export class EmployeeService {
       );
   }
 
-  updateEmployee(employee: Employee): Observable<Employee> {
-    return this.http.put<Employee>(`${this.apiUrl}/${employee.id}`, employee)
-      .pipe(
-        catchError(this.handleError<Employee>('updateEmployee'))
-      );
+// Replace the updateEmployee method with this improved version
+updateEmployee(employee: Employee): Observable<Employee> {
+  const employeeId = employee.id || employee._id;
+
+  if (!employeeId) {
+    console.error('Cannot update employee without an ID');
+    return throwError(() => new Error('Employee ID is required for updates'));
   }
+  
+  return this.http.put<Employee>(`${this.apiUrl}/${employeeId}`, employee)
+    .pipe(
+      retry(1),
+      catchError(this.handleError<Employee>('updateEmployee'))
+    );
+}
 
   deleteEmployee(id: string): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/${id}`)
