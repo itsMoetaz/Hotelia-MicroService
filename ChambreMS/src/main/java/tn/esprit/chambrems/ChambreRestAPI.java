@@ -2,6 +2,7 @@ package tn.esprit.chambrems;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
@@ -309,4 +310,11 @@ public class ChambreRestAPI {
         System.out.println("=============================================");
         return ResponseEntity.ok(historiques);
     }
+    @Value("${welcome.message}")
+    private String welcomeMessage;
+    @GetMapping("/welcome")
+    public String welcome() {
+        return welcomeMessage;
+    }
+
 }

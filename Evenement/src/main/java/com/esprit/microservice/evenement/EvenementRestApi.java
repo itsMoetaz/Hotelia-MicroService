@@ -125,5 +125,11 @@
             serviceSms.sendSms(smsRequest);
         }
 
+        @Value("${welcome.message}")
+        private String welcomeMessage;
+        @GetMapping("/welcome")
+        public String welcome() {
+            return welcomeMessage;
+        }
 
     }

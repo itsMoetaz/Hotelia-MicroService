@@ -6,6 +6,9 @@ import jakarta.persistence.*;
 import java.io.Serial;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
+
 @Entity
 public class Reservation implements Serializable {
     @Serial
@@ -19,6 +22,17 @@ public class Reservation implements Serializable {
     private int idchambre;
 
     private Boolean statut;
+
+    @ElementCollection
+    private Set<Long> listchambreJobs = new HashSet<>();
+
+    public Set<Long> getListchambreJobs() {
+        return listchambreJobs;
+    }
+
+    public void setListchambreJobs(Set<Long> listchambreJobs) {
+        this.listchambreJobs = listchambreJobs;
+    }
 
     public Reservation(Date datedebut, Date datefin, int idchambre, Boolean statut) {
         this.datedebut = datedebut;

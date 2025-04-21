@@ -1,6 +1,7 @@
 package com.esprit.microservice.employeems;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
@@ -141,4 +142,20 @@ public class EmployeeRestApi {
     public void deleteEmployee(@PathVariable Long id) {
         iemployeeService.deleteEmployee(id);
     }
+    @RequestMapping("/chambres")
+    public List<Chambre> getAllChambres() {
+        return iemployeeService.getAllChambres();
+    }
+
+    @RequestMapping("chambres/{id}")
+    public Chambre getChambreById(@PathVariable long id) {
+        return iemployeeService.getChambreById(id);
+    }
+    @Value("${welcome.message}")
+    private String welcomeMessage;
+    @GetMapping("/welcome")
+    public String welcome() {
+        return welcomeMessage;
+    }
+
 }

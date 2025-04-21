@@ -1,18 +1,17 @@
-package com.esprit.microservice.employeems;
+package com.example.democonfigserver;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
-import org.springframework.cloud.openfeign.EnableFeignClients;
+import org.springframework.cloud.config.server.EnableConfigServer;
 
 @SpringBootApplication
 @EnableDiscoveryClient
-@EnableFeignClients
-
-public class EmployeeMsApplication {
+@EnableConfigServer
+public class DemoconfigserverApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(EmployeeMsApplication.class, args);
+        SpringApplication.run(DemoconfigserverApplication.class, args);
     }
 
 }
