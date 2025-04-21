@@ -69,68 +69,75 @@
           </div>
 
           <!-- Search and Filter -->
-          <div class="join">
-            <div>
-              <div>
-                <input class="input input-bordered join-item w-full" placeholder="Rechercher..."
-                  formControlName="searchTerm"/>
+          <!-- Search and Filter -->
+<div class="flex gap-2 w-full max-w-xs md:max-w-md">
+  <div class="flex-1">
+    <input 
+      type="text" 
+      class="input input-bordered w-full" 
+      placeholder="Rechercher..."
+      [formControl]="searchTerm"
+      (keyup.enter)="onSearch()"
+    />
+  </div>
+  <button class="btn btn-primary" (click)="onSearch()">
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+      <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
+    </svg>
+  </button>
+</div>
+        
+
+        <div class="flex flex-col lg:flex-row gap-4">
+         
+  
+          <!-- Filters Dropdown -->
+          <div class="dropdown dropdown-end">
+            <label tabindex="0" class="btn btn-ghost btn-outline gap-2">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M12 3c2.755 0 5.455.232 8.083.678.533.09.917.556.917 1.096v1.044a2.25 2.25 0 01-.659 1.591l-5.432 5.432a2.25 2.25 0 00-.659 1.591v2.927a2.25 2.25 0 01-1.244 2.013L9.75 21v-6.568a2.25 2.25 0 00-.659-1.591L3.659 7.409A2.25 2.25 0 013 5.818V4.774c0-.54.384-1.006.917-1.096A48.32 48.32 0 0112 3z" />
+              </svg>
+              Filtres
+            </label>
+            <div tabindex="0" class="dropdown-content z-[1] card card-compact w-64 p-2 shadow bg-base-100 border">
+              <div class="card-body">
+                <form [formGroup]="searchForm" class="space-y-4">
+                  <div class="form-control w-full">
+                    <label class="label">
+                      <span class="label-text">Disponibilité</span>
+                    </label>
+                    <select class="select select-sm select-bordered" formControlName="availabilityFilter">
+                      <option value="all">Tous</option>
+                      <option value="available">Disponibles</option>
+                      <option value="unavailable">Indisponibles</option>
+                    </select>
+                  </div>
+  
+                  <div class="form-control w-full">
+                    <label class="label">
+                      <span class="label-text">Prix</span>
+                    </label>
+                    <div class="flex gap-2">
+                      <input type="number" class="input input-bordered input-sm w-full" 
+                             formControlName="priceMin" placeholder="Min €">
+                      <input type="number" class="input input-bordered input-sm w-full" 
+                             formControlName="priceMax" placeholder="Max €">
+                    </div>
+                  </div>
+  
+                  <div class="flex justify-end">
+                    <button type="button" class="btn btn-sm btn-ghost" (click)="resetFilters()">
+                      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182m0-4.991v4.99" />
+                      </svg>
+                      Réinitialiser
+                    </button>
+                  </div>
+                </form>
               </div>
             </div>
-            <button class="btn join-item">Rechercher</button>
           </div>
-        </div>
-
-        <!-- Search and Filter Panel -->
-        <div class="card bg-base-100 shadow-xl mb-8">
-          <div class="card-body">
-            <h3 class="card-title mb-4">Filtres Avancés</h3>
-            <form [formGroup]="searchForm" class="space-y-4">
-              <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <!-- Availability filter -->
-                <div class="form-control">
-                  <label class="label">
-                    <span class="label-text">Disponibilité</span>
-                  </label>
-                  <select class="select select-bordered w-full" formControlName="availabilityFilter">
-                    <option value="all">Tous les Services</option>
-                    <option value="available">Disponibles</option>
-                    <option value="unavailable">Indisponibles</option>
-                  </select>
-                </div>
-
-                <!-- Price range -->
-                <div class="form-control">
-                  <label class="label">
-                    <span class="label-text">Prix Minimum</span>
-                  </label>
-                  <div class="input-group">
-                    <span>$</span>
-                    <input type="number" class="input input-bordered w-full" 
-                           formControlName="priceMin" placeholder="Min" min="0">
-                  </div>
-                </div>
-
-                <div class="form-control">
-                  <label class="label">
-                    <span class="label-text">Prix Maximum</span>
-                  </label>
-                  <div class="input-group">
-                    <span>$</span>
-                    <input type="number" class="input input-bordered w-full" 
-                           formControlName="priceMax" placeholder="Max" min="0">
-                  </div>
-                </div>
-              </div>
-
-              <div class="flex justify-end">
-                <button type="button" class="btn btn-ghost" (click)="resetFilters()">
-                  Réinitialiser les filtres
-                </button>
-              </div>
-            </form>
-          </div>
-        </div>
-
+        </div></div>  
         <!-- Results count -->
         <div class="text-sm text-base-content/70 mb-4" *ngIf="!loading && filteredServices.length > 0">
           Affichage de {{ filteredServices.length }} sur {{ services.length }} services

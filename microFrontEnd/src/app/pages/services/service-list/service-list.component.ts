@@ -3,6 +3,8 @@ import { HotelService } from '../../../models/hotel-service.model';
 import { HotelServiceService } from '../../../services/hotel-service.service';
 import { Router } from '@angular/router';
 import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormControl } from '@angular/forms';
+
 
 @Component({
   selector: 'app-service-list',
@@ -15,6 +17,8 @@ export class ServiceListComponent implements OnInit {
   loading = true;
   error = '';
   searchForm: FormGroup;
+  searchTerm = new FormControl('');
+
 
   constructor(
     private hotelServiceService: HotelServiceService,
@@ -118,5 +122,13 @@ export class ServiceListComponent implements OnInit {
 
   navigateToAdd(): void {
     this.router.navigate(['/dashboard/services/add']);
+  }
+
+  onSearch() {
+    const term = this.searchTerm.value?.toLowerCase() || '';
+    this.filteredServices = this.services.filter(service => 
+      service.name.toLowerCase().includes(term) ||
+      service.description.toLowerCase().includes(term)
+    );
   }
 }

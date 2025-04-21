@@ -49,6 +49,9 @@ public class ServiceRestAPI {
         if (updatedHotelService.getPrice() !=0) {
             existingService.setPrice(updatedHotelService.getPrice());
         }
+        if (updatedHotelService.getAvailable() != null) {
+            existingService.setAvailable(updatedHotelService.getAvailable());
+        }
         if (updatedHotelService.getOpeningTime() != null) {
             existingService.setOpeningTime(updatedHotelService.getOpeningTime());
         }
