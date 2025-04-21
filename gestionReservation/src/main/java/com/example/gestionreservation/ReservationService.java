@@ -1,11 +1,17 @@
 package com.example.gestionreservation;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class ReservationService {
+
+    @Autowired
+    private ChambreClient chambreClient;
+
 
     private final ReservationRepository reservationRepository;
 
@@ -55,4 +61,26 @@ public class ReservationService {
     public int getCanceledReservations() {
         return (int) reservationRepository.countByStatut(false); // Compte les réservations annulées
     }
+
+    public List<Chambre> getAllChambres() {
+        return chambreClient.getAllChambres();
+    }
+
+    public Chambre getChambreById(long id) {
+        return chambreClient.getChambreById(id);
+    }
+
+    public List<Chambre> getFavoriteJobs(int reservationId) {
+        Reservation reservation = reservationRepository.findById(reservationId).get();
+        return reservation.getListchambreJobs().stream()
+                .map(chambreClient::getChambreById)
+                .collect(Collectors.toList());
+    }
+
+    public void saveFavoriteJob(int reservationId, Long ChambreId) {
+        Reservation reservation = reservationRepository.findById(reservationId).get();
+        reservation.getListchambreJobs().add(ChambreId);
+        reservationRepository.save(reservation);
+    }
+
 }

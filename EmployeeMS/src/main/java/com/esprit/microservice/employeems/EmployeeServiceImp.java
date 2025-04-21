@@ -9,7 +9,8 @@ import java.util.List;
 public class EmployeeServiceImp implements IEmployeeService{
     @Autowired
     private EmployeeRepository employeeRepository;
-
+    @Autowired
+    private ChambreClient chambreClient;
     @Autowired
     private IEmailService emailService;
 
@@ -41,5 +42,12 @@ public class EmployeeServiceImp implements IEmployeeService{
     @Override
     public void deleteEmployee(Long id) {
         employeeRepository.deleteById(id);
+    }
+    public List<Chambre> getAllChambres() {
+        return chambreClient.getAllChambres();
+    }
+
+    public Chambre getChambreById(long id) {
+        return chambreClient.getChambreById(id);
     }
 }

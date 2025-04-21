@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { Evenement } from '../models/evenement.model';
+import { Evenement } from '../models/Evenement.model';
 
 
 @Injectable({
@@ -15,12 +15,12 @@ export class EvenementService {
 
   constructor(private http: HttpClient) {}
 
-  //get all events 
+  //get all events
   getAllEvents(): Observable<Evenement[]> {
     return this.http.get<Evenement[]>(`${this.baseUrl}/all`);
   }
 
-  //get evenet by id 
+  //get evenet by id
   getEventById(id: number): Observable<Evenement> {
     return this.http.get<Evenement>(`${this.baseUrl}/${id}`);
   }
@@ -46,7 +46,7 @@ export class EvenementService {
   }
 
   getSortedByPrixAsc(): Observable<Evenement[]> {
-   
+
     return this.http.get<Evenement[]>(`${this.baseUrl}/sort/prix/asc`);
   }
 
@@ -55,7 +55,7 @@ export class EvenementService {
     return this.http.get<Evenement[]>(`${this.baseUrl}/sort/prix/desc`);
   }
 
-  //participer evenement by user 
+  //participer evenement by user
   participerEvent(evenementId: number): Observable<string> {
    // return this.apiService.post<string>(`${this.baseEndpoint}/${evenementId}/participer`, {});
     return this.http.post<string>(`${this.baseUrl}/${evenementId}/participer`,  {});

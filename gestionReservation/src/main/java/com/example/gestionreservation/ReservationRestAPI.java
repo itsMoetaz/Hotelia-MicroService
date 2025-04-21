@@ -1,5 +1,6 @@
 package com.example.gestionreservation;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -102,6 +103,38 @@ public class ReservationRestAPI {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erreur lors de la génération du QR Code");
         }
     }
+    @RequestMapping("/chambres")
+    public List<Chambre> getAllChambres() {
+        return reservationService.getAllChambres();
+    }
 
+    @RequestMapping("chambres/{id}")
+    public Chambre getChambreById(@PathVariable long id) {
+        return reservationService.getChambreById(id);
+    }
+    @GetMapping("/{id}/favorite-Chambres")
+    public List<Chambre> getFavoriteChambres(@PathVariable int id) {
+        return reservationService.getFavoriteJobs(id);
+    }
+
+    @PostMapping("/{id}/favorite-Chambres/{ChambreId}")
+    public ResponseEntity<String> saveFavoriteChambre(@PathVariable int id, @PathVariable Long ChambreId) {
+        Chambre Chambre = reservationService.getChambreById(ChambreId);
+        if (Chambre != null) {
+            reservationService.saveFavoriteJob(id, ChambreId);
+            return ResponseEntity.status(HttpStatus.OK).body("Chambre saved as favorite successfully.");
+
+        } else {
+            // Gérer le cas où le Chambre n'existe pas
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body("Chambre not found with ID: " + ChambreId);
+        }
+    }
+    @Value("${welcome.message}")
+    private String welcomeMessage;
+    @GetMapping("/welcome")
+    public String welcome() {
+        return welcomeMessage;
+    }
 
 }

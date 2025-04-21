@@ -8,4 +8,6 @@ public interface IEmployeeService {
     public Employee addEmployee(Employee e);
     public Employee updateEmployee(Employee e);
     public void deleteEmployee(Long id);
+     List<Chambre> getAllChambres();
+    Chambre getChambreById(long id);
 }

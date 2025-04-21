@@ -9,7 +9,6 @@ import org.springframework.context.annotation.Bean;
 
 @SpringBootApplication
 @EnableDiscoveryClient
-
 public class ApiGatewayApplication {
 
     public static void main(String[] args) {
@@ -29,6 +28,8 @@ public class ApiGatewayApplication {
                 .route("GestionReservation",r->r.path("/reservations/**").uri("lb://GestionReservation"))
                 .route("Gestionuser",r->r.path("/api/**").uri("lb://Gestionuser"))
                 .route("Employee",r -> r.path("/employees/**").uri("lb://EmployeeMS"))
+                .route("HotelServices",r -> r.path("/HotelServices/**").uri("lb://HotelServices"))
+
 
                 .build();
     }

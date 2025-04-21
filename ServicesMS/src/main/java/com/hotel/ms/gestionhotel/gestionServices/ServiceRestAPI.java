@@ -1,6 +1,7 @@
 package com.hotel.ms.gestionhotel.gestionServices;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -64,6 +65,12 @@ public class ServiceRestAPI {
     @DeleteMapping("/deleteHotelService/{id}")
     public void deleteHotelService(@PathVariable Integer id) {
         iServiceService.deleteService(id);
+    }
+    @Value("${welcome.message}")
+    private String welcomeMessage;
+    @GetMapping("/welcome")
+    public String welcome() {
+        return welcomeMessage;
     }
 
 }
