@@ -1,0 +1,129 @@
+services:
+  db-mysql:
+    image: "mysql:5.6"
+    container_name: db-mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: hotel_db
+    ports:
+      - "3307:3306"
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    volumes:
+      - mysql-data:/var/lib/mysql
+
+  Eureka:
+    container_name: eureka
+    build: ./Eureka
+    hostname: serviceregistry
+    ports:
+      - "8761:8761"
+    image: malekjendoubi/hotelia:eureka
+    environment:
+      eureka.client.serviceUrl.defaultZone: http://serviceregistry:8761/eureka/
+    restart: unless-stopped
+
+  Chambre:
+    container_name: chambre
+    build: ./chambreMS
+    ports:
+      - "8082:8082"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://db-mysql:3306/hotel_db?createDatabaseIfNotExist=true&useSSL=false&max_allowed_packet=15728640
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: root
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eureka:8761/eureka/
+    image: malekjendoubi/hotelia:chambre
+    restart: unless-stopped
+    depends_on:
+      db-mysql:
+        condition: service_healthy
+      Eureka:
+        condition: service_started
+
+  EmployeeMS:
+    container_name: employeeMS
+    build: ./employeeMS
+    ports:
+      - "8000:8000"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://db-mysql:3306/hotel_db?createDatabaseIfNotExist=true&useSSL=false&max_allowed_packet=15728640
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: root
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eureka:8761/eureka/
+    image: malekjendoubi/hotelia:employee
+    restart: unless-stopped
+    depends_on:
+      db-mysql:
+        condition: service_healthy
+      Eureka:
+        condition: service_started
+
+  Evenement:
+    container_name: evenement
+    build: ./evenement
+    ports:
+      - "8085:8085"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://db-mysql:3306/hotel_db?createDatabaseIfNotExist=true&useSSL=false&max_allowed_packet=15728640
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: root
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eureka:8761/eureka/
+    image: malekjendoubi/hotelia:evenement
+    restart: unless-stopped
+    depends_on:
+      db-mysql:
+        condition: service_healthy
+      Eureka:
+        condition: service_started
+
+  ServicesMS:
+    container_name: hotelServices
+    build: ./ServicesMS
+    ports:
+      - "8888:8888"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://db-mysql:3306/hotel_db?createDatabaseIfNotExist=true&useSSL=false&max_allowed_packet=15728640
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: root
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eureka:8761/eureka/
+    image: malekjendoubi/hotelia:services
+    restart: unless-stopped
+    depends_on:
+      db-mysql:
+        condition: service_healthy
+      Eureka:
+        condition: service_started
+
+  gestionReservation:
+    container_name: gestionReservation
+    build: ./gestionReservation
+    image: malekjendoubi/hotelia:reservation
+    ports:
+      - "8083:8083"
+    environment:
+      - eureka.client.serviceUrl.defaultZone=http://serviceregistry:8761/eureka/
+    depends_on:
+      - Eureka
+
+  api-gateway:
+    container_name: api-gateway
+    build: ./API_Gateway
+    image: malekjendoubi/hotelia:apigateway
+    ports:
+      - "8093:8093"
+    environment:
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://serviceregistry:8761/eureka/
+    restart: unless-stopped
+    depends_on:
+      Eureka:
+        condition: service_started
+      Chambre:
+        condition: service_started
+
+volumes:
+  mysql-data:
