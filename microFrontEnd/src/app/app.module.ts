@@ -31,6 +31,13 @@ import { ClientRoomsComponent } from './pages/client-rooms/client-rooms.componen
 import { ProfileComponent } from './pages/auth/profile/profile.component';
 import { UserListComponent } from './pages/users/user-list/user-list.component';
 import { UserFormComponent } from './pages/users/user-form/user-form.component';
+import { ServiceListComponent } from './pages/services/service-list/service-list.component';
+import { ServiceDetailsComponent } from './pages/services/service-detail/service-detail.component';
+import { ServiceFormComponent } from './pages/services/service-form/service-form.component';
+import { ServicePaymentComponent } from './pages/services/service-payment/service-payment.component';
+import { PaymentSuccessComponent } from './pages/services/payment-succes/payment-succes.component';
+
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -51,7 +58,12 @@ import { UserFormComponent } from './pages/users/user-form/user-form.component';
     ClientRoomsComponent,
     ProfileComponent,
     UserListComponent,
-    UserFormComponent
+    UserFormComponent,
+    ServiceListComponent,
+    ServiceDetailsComponent,
+    ServiceFormComponent,
+    ServicePaymentComponent, 
+    PaymentSuccessComponent
   ],
   imports: [
     BrowserModule,
@@ -65,7 +77,7 @@ import { UserFormComponent } from './pages/users/user-form/user-form.component';
     MatFormFieldModule,
     MatInputModule,
     MatButtonModule,
-    MatTableModule
+    MatTableModule, 
   ],
   providers: [],
   bootstrap: [AppComponent]

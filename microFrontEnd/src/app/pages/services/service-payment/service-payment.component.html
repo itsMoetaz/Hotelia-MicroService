@@ -1,0 +1,112 @@
+<div class="container mt-4">
+    <div *ngIf="loading" class="text-center">
+      <div class="spinner-border" role="status">
+        <span class="visually-hidden">Loading...</span>
+      </div>
+    </div>
+    
+    <div *ngIf="paymentError" class="alert alert-danger">
+      {{ paymentError }}
+    </div>
+    
+    <div *ngIf="!loading && service" class="row">
+      <div class="col-lg-8">
+        <div class="card">
+          <div class="card-header">
+            <h3>Payment for {{ service.name }}</h3>
+          </div>
+          <div class="card-body">
+            <!-- Service summary -->
+            <div class="mb-4 p-3 bg-light rounded">
+              <h5 class="mb-3">Service Summary</h5>
+              <div class="row">
+                <div class="col-sm-8">
+                  <p><strong>Service:</strong> {{ service.name }}</p>
+                  <p><strong>Description:</strong> {{ service.description }}</p>
+                  <p><strong>Hours:</strong> {{ service.openingTime }} - {{ service.closingTime }}</p>
+                </div>
+                <div class="col-sm-4 text-end">
+                  <h4 class="text-primary">{{ service.price | currency }}</h4>
+                </div>
+              </div>
+            </div>
+            
+            <!-- Payment form -->
+            <form [formGroup]="paymentForm" (ngSubmit)="handlePayment()">
+              <h5 class="mb-3">Customer Information</h5>
+              <div class="mb-3">
+                <label for="name" class="form-label">Name on Card</label>
+                <input 
+                  type="text" 
+                  class="form-control" 
+                  id="name" 
+                  formControlName="name"
+                  [ngClass]="{'is-invalid': paymentForm.get('name')?.invalid && paymentForm.get('name')?.touched}"
+                >
+                <div class="invalid-feedback" *ngIf="paymentForm.get('name')?.invalid && paymentForm.get('name')?.touched">
+                  Name is required
+                </div>
+              </div>
+              
+              <div class="mb-3">
+                <label for="email" class="form-label">Email</label>
+                <input 
+                  type="email" 
+                  class="form-control" 
+                  id="email" 
+                  formControlName="email"
+                  [ngClass]="{'is-invalid': paymentForm.get('email')?.invalid && paymentForm.get('email')?.touched}"
+                >
+                <div class="invalid-feedback" *ngIf="paymentForm.get('email')?.invalid && paymentForm.get('email')?.touched">
+                  Valid email is required
+                </div>
+              </div>
+              
+              <h5 class="mb-3">Payment Details</h5>
+              <div class="mb-3">
+                <label for="card-element" class="form-label">Credit or Debit Card</label>
+                <div id="card-element" class="form-control" style="height: 40px; padding-top: 10px;"></div>
+                <div id="card-errors" class="text-danger mt-2" role="alert"></div>
+              </div>
+              
+              <div class="d-flex gap-2 mt-4">
+                <button 
+                  type="submit" 
+                  class="btn btn-primary" 
+                  [disabled]="paymentForm.invalid || processingPayment"
+                >
+                  <span *ngIf="processingPayment" class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+                  Pay {{ service.price | currency }}
+                </button>
+                <button type="button" class="btn btn-outline-secondary" (click)="goBack()">Cancel</button>
+              </div>
+            </form>
+            
+            <!-- Success message -->
+            <div *ngIf="paymentSuccess" class="alert alert-success mt-4">
+              Payment successful! Redirecting to confirmation page...
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="col-lg-4">
+        <div class="card">
+          <div class="card-header">
+            <h5>Payment Security</h5>
+          </div>
+          <div class="card-body">
+            <p>All payments are securely processed by Stripe.</p>
+            <p>We do not store your credit card information.</p>
+            <p>This transaction is encrypted using SSL technology.</p>
+            <hr>
+            <div class="d-flex justify-content-around">
+              <i class="bi bi-lock-fill fs-3"></i>
+              <i class="bi bi-shield-check fs-3"></i>
+              <i class="bi bi-patch-check-fill fs-3"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>

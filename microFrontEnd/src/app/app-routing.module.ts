@@ -14,6 +14,9 @@ import { ClientRoomsComponent } from './pages/client-rooms/client-rooms.componen
 import { ProfileComponent } from './pages/auth/profile/profile.component';
 import { UserListComponent } from './pages/users/user-list/user-list.component';
 import { UserFormComponent } from './pages/users/user-form/user-form.component';
+import { ServiceListComponent } from './pages/services/service-list/service-list.component';
+import { ServiceFormComponent } from './pages/services/service-form/service-form.component';
+import { ServiceDetailsComponent } from './pages/services/service-detail/service-detail.component';
 
 
 const routes: Routes = [
@@ -35,7 +38,15 @@ const routes: Routes = [
   { path: 'dashboard/listuser', component: UserListComponent },
   { path: 'dashboard/user-form/:id', component: UserFormComponent },  // Mise à jour d'utilisateur
   { path: 'dashboard/user-form', component: UserFormComponent },      // Ajout d'utilisateur
-  { path: 'addreservation', component: AddreservationsComponent }
+  { path: 'addreservation', component: AddreservationsComponent },
+
+  {path: 'dashboard/services', component: ServiceListComponent},
+  {path: 'dashboard/services/add', component: ServiceFormComponent},
+  {path: 'dashboard/services/edit/:id', component: ServiceFormComponent},
+  {path: 'dashboard/services/:id', component: ServiceFormComponent},
+  {path: 'dashboard/services/details/:id', component: ServiceDetailsComponent},
+
+  
 ];
 
 @NgModule({
