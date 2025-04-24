@@ -22,7 +22,7 @@ services:
     hostname: serviceregistry
     ports:
       - "8761:8761"
-    image: malekjendoubi/hotelia:eureka
+    image: malekjendoubi/hotelia:eurekaaa
     environment:
       eureka.client.serviceUrl.defaultZone: http://serviceregistry:8761/eureka/
     restart: unless-stopped
@@ -124,6 +124,16 @@ services:
         condition: service_started
       Chambre:
         condition: service_started
+      EmployeeMS:
+        condition: service_started
+      ServicesMS:
+        condition: service_started
+      Evenement:
+        condition: service_started
+      gestionReservation:
+        condition: service_started
+
+
 
 volumes:
   mysql-data:

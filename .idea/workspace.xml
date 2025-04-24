@@ -4,17 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="eb7eebbf-8921-4cdd-80ac-aca14a3a975b" name="Changes" comment="gestionuser + apigateway">
-      <change afterPath="$PROJECT_DIR$/EmployeeMS/Dockerfile" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Evenement/Dockerfile" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ServicesMS/Dockerfile" afterDir="false" />
+    <list default="true" id="eb7eebbf-8921-4cdd-80ac-aca14a3a975b" name="Changes" comment="docker">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/EmployeeMS/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/EmployeeMS/src/main/resources/application.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Evenement/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/Evenement/src/main/resources/application.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ServicesMS/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/ServicesMS/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ServicesMS/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/ServicesMS/src/main/resources/application.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gestionReservation/Database/Data/gestionReservation.mv.db" beforeDir="false" afterPath="$PROJECT_DIR$/gestionReservation/Database/Data/gestionReservation.mv.db" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gestionReservation/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/gestionReservation/Dockerfile" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/API_Gateway/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/API_Gateway/Dockerfile" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/API_Gateway/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/API_Gateway/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docker-compose.yml" beforeDir="false" afterPath="$PROJECT_DIR$/docker-compose.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gestionReservation/src/main/java/com/example/gestionreservation/QRCodeService.java" beforeDir="false" afterPath="$PROJECT_DIR$/gestionReservation/src/main/java/com/example/gestionreservation/QRCodeService.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -87,7 +82,8 @@
       <workItem from="1745197202344" duration="884000" />
       <workItem from="1745202347819" duration="47000" />
       <workItem from="1745202456081" duration="3090000" />
-      <workItem from="1745256205959" duration="4828000" />
+      <workItem from="1745256205959" duration="5249000" />
+      <workItem from="1745273468256" duration="1448000" />
     </task>
     <task id="LOCAL-00001" summary="correctiongesitonuser">
       <option name="closed" value="true" />
@@ -113,7 +109,15 @@
       <option name="project" value="LOCAL" />
       <updated>1745197499001</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="docker">
+      <option name="closed" value="true" />
+      <created>1745261902008</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1745261902008</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -145,6 +149,7 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="correctiongesitonuser" />
     <MESSAGE value="gestionuser: backoffice" />
-    <option name="LAST_COMMIT_MESSAGE" value="gestionuser: backoffice" />
+    <MESSAGE value="docker" />
+    <option name="LAST_COMMIT_MESSAGE" value="docker" />
   </component>
 </project>

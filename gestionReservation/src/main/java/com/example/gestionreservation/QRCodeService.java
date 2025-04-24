@@ -67,7 +67,7 @@ public class QRCodeService {
             MatrixToImageWriter.writeToFile(matrix, "PNG", file);  // Sauvegarder l'image
 
             // Retourner l'URL publique du fichier QR code
-            return "http://localhost:8082/qr-codes/" + fileName;  // L'URL publique de l'image
+            return "http://localhost:8086/qr-codes/" + fileName;  // L'URL publique de l'image
         } catch (Exception e) {
             throw new IOException("Erreur lors de la génération du QR Code", e);
         }

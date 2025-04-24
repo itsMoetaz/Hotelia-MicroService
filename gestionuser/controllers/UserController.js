@@ -1,5 +1,5 @@
 const User = require('../models/User');
-const bcrypt = require('bcrypt');
+const bcrypt = require('bcryptjs');
 const { validateUser, validateUpdateUser } = require('../validators/validators');
 const mongoose = require('mongoose'); // Add this import
 
